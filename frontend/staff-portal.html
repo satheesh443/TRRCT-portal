@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty Operations Portal - TRR College of Technology</title>
+  
+  <link rel="icon" type="image/png" href="/public/assets/logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            trr: {
+              blue: '#184995',
+              navy: '#0c234a',
+              gold: '#f59e0b',
+              light: '#f0f4fd'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- TOP HEADER -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2.5">
+          <img src="/public/assets/logo.png" alt="Logo" class="h-10 w-auto">
+          <div class="flex flex-col">
+            <span class="font-extrabold text-sm md:text-base text-trr-blue leading-tight">TRR COLLEGE OF TECHNOLOGY</span>
+            <span class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">Faculty Operations & Academic Console</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div class="hidden sm:flex flex-col text-right">
+          <span id="header-staff-name" class="font-bold text-xs text-slate-900">Dr. A. Ramakrishna</span>
+          <span id="header-staff-meta" class="text-[10px] text-slate-500 font-mono">FAC-CSE-01 • HOD, CSE</span>
+        </div>
+        <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-sm border border-emerald-200">
+          <i class="fa-solid fa-chalkboard-user"></i>
+        </div>
+        <button onclick="API.logout()" class="bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-600 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-200 transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- DASHBOARD WRAPPER -->
+  <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-6">
+
+    <!-- FACULTY IDENTITY & STATS BANNER -->
+    <div class="bg-gradient-to-r from-slate-900 via-emerald-950 to-emerald-900 text-white rounded-2xl p-6 shadow-md relative overflow-hidden">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center relative z-10">
+        <div class="md:col-span-6 space-y-1">
+          <span class="bg-emerald-400 text-slate-950 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded">Faculty Console</span>
+          <h1 id="staff-name-display" class="text-2xl font-black tracking-tight">Dr. A. Ramakrishna</h1>
+          <p id="staff-meta-display" class="text-xs text-emerald-200">
+            Professor & Head of Department | Computer Science & Engineering
+          </p>
+          <p class="text-[11px] text-slate-300">Office: CSE Block - Room 102 | Phone: +91 98480 11223</p>
+        </div>
+
+        <div class="md:col-span-6 grid grid-cols-3 gap-3">
+          <div class="bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/10 text-center">
+            <span class="text-[10px] text-emerald-200 block uppercase font-bold">Assignments</span>
+            <span id="metric-staff-assignments" class="text-xl font-black text-amber-300">--</span>
+            <span class="text-[9px] text-slate-300 block mt-0.5">Active</span>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/10 text-center">
+            <span class="text-[10px] text-emerald-200 block uppercase font-bold">Submissions</span>
+            <span id="metric-staff-submissions" class="text-xl font-black text-sky-300">--</span>
+            <span class="text-[9px] text-slate-300 block mt-0.5">Received</span>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/10 text-center">
+            <span class="text-[10px] text-emerald-200 block uppercase font-bold">Students</span>
+            <span id="metric-staff-students" class="text-xl font-black text-emerald-300">--</span>
+            <span class="text-[9px] text-slate-300 block mt-0.5">Enrolled</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPERATIONS NAVIGATION TABS -->
+    <div class="bg-white p-2 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-2 text-xs font-bold">
+      <button onclick="switchStaffTab('attendance')" id="staff-tab-attendance" class="staff-nav-tab active bg-emerald-700 text-white px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-clipboard-user"></i> Live Attendance Management
+      </button>
+      <button onclick="switchStaffTab('timetable')" id="staff-tab-timetable" class="staff-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-calendar-check text-sky-600"></i> Teaching Timetable
+      </button>
+      <button onclick="switchStaffTab('assignments')" id="staff-tab-assignments" class="staff-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-file-pen text-amber-600"></i> Assignment Management
+      </button>
+      <button onclick="switchStaffTab('grading')" id="staff-tab-grading" class="staff-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-square-check text-emerald-600"></i> Evaluate Submissions
+      </button>
+      <button onclick="switchStaffTab('marks')" id="staff-tab-marks" class="staff-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-arrow-up-right-dots text-purple-600"></i> Upload Exam Marks
+      </button>
+      <button onclick="switchStaffTab('library')" id="staff-tab-library" class="staff-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-book-bookmark text-amber-600"></i> Central Library Repository
+      </button>
+    </div>
+
+    <!-- TAB 1: LIVE ATTENDANCE MANAGEMENT -->
+    <section id="staff-content-attendance" class="space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Attendance Control & Marking Panel (7 cols) -->
+        <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="flex flex-col sm:flex-row justify-between sm:items-center pb-3 border-b border-slate-100 gap-2">
+            <div>
+              <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
+                <i class="fa-solid fa-clipboard-user text-emerald-600"></i> Take Daily Classroom Attendance
+              </h3>
+              <p class="text-xs text-slate-500">Mark student attendance live and commit directly to the primary operations database.</p>
+            </div>
+            <button type="button" onclick="toggleAllAttendance(true)" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold px-3 py-1.5 rounded-lg transition-colors self-start sm:self-auto">
+              <i class="fa-solid fa-check-double mr-1"></i> Mark All Present
+            </button>
+          </div>
+
+          <!-- Session Metadata Selector -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Date</label>
+              <input type="date" id="att-date" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg bg-white outline-none focus:ring-1 focus:ring-emerald-600">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Subject</label>
+              <select id="att-subject" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg bg-white outline-none focus:ring-1 focus:ring-emerald-600 font-semibold">
+                <option value="CS401PC">CS401PC: Database Management Systems</option>
+                <option value="CS402PC">CS402PC: Design & Analysis of Algorithms</option>
+                <option value="CS403PC">CS403PC: Web Technologies Full Stack</option>
+                <option value="CS404PC">CS404PC: Operating Systems</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Period / Slot</label>
+              <select id="att-period" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg bg-white outline-none focus:ring-1 focus:ring-emerald-600">
+                <option value="Period 1 (09:30 - 10:30 AM)">Period 1 (09:30 - 10:30 AM)</option>
+                <option value="Period 2 (10:30 - 11:30 AM)">Period 2 (10:30 - 11:30 AM)</option>
+                <option value="Period 3 (11:30 - 12:30 PM)">Period 3 (11:30 - 12:30 PM)</option>
+                <option value="Period 4 (01:15 - 02:15 PM)">Period 4 (01:15 - 02:15 PM)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Student Attendance Table -->
+          <div class="overflow-x-auto border border-slate-200 rounded-xl">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 text-slate-700 uppercase font-bold border-b border-slate-200">
+                <tr>
+                  <th class="py-2.5 px-3">Roll Number</th>
+                  <th class="py-2.5 px-3">Student Name</th>
+                  <th class="py-2.5 px-3 text-center">Status</th>
+                </tr>
+              </thead>
+              <tbody id="attendance-roster-tbody" class="divide-y divide-slate-100 font-medium">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <button type="button" onclick="submitAttendanceSession()" id="commit-att-btn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl text-xs transition-colors shadow">
+            <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Commit Attendance to Database
+          </button>
+        </div>
+
+        <!-- Attendance History Log (5 cols) -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+              <h3 class="font-bold text-sm text-slate-900">Recent Attendance Sessions</h3>
+              <span class="text-xs text-slate-500 font-semibold" id="att-sessions-count">Loading...</span>
+            </div>
+            <div id="attendance-history-list" class="space-y-2.5 max-h-[500px] overflow-y-auto pr-1">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: TEACHING TIMETABLE -->
+    <section id="staff-content-timetable" class="hidden space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-calendar-check text-sky-600"></i> Faculty Weekly Lecture Schedule
+          </h2>
+          <p class="text-xs text-slate-500">Assigned theory lectures, practical labs, and classroom allocations.</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-900 text-white uppercase text-[11px] font-bold">
+              <tr>
+                <th class="py-3 px-4">Day</th>
+                <th class="py-3 px-4">Time Slot</th>
+                <th class="py-3 px-4">Course / Subject</th>
+                <th class="py-3 px-4">Assigned Class</th>
+                <th class="py-3 px-4">Room Allocation</th>
+              </tr>
+            </thead>
+            <tbody id="staff-timetable-tbody" class="divide-y divide-slate-100 font-medium">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: ASSIGNMENT CREATION & MANAGEMENT -->
+    <section id="staff-content-assignments" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="border-b border-slate-100 pb-3">
+            <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-circle-plus text-emerald-600"></i> Post New Assignment
+            </h3>
+            <p class="text-xs text-slate-500">Publish task statements and deadlines to student portals.</p>
+          </div>
+
+          <form id="create-assignment-form" onsubmit="handleCreateAssignment(event)" class="space-y-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Assignment Title *</label>
+              <input type="text" id="asn-title" required placeholder="e.g. Graph Algorithms & Dijkstra Case Study" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-600">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Course / Subject *</label>
+                <input type="text" id="asn-subject" required value="Design & Analysis of Algorithms" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-600">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Target Semester *</label>
+                <select id="asn-semester" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-600 bg-white">
+                  <option value="IV Semester (2nd Year)">IV Semester (2nd Year)</option>
+                  <option value="VI Semester (3rd Year)">VI Semester (3rd Year)</option>
+                  <option value="VIII Semester (4th Year)">VIII Semester (4th Year)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Due Date *</label>
+                <input type="date" id="asn-due-date" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-600">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Max Marks *</label>
+                <input type="number" id="asn-max-marks" required value="25" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-600">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Detailed Description & Problem Statement</label>
+              <textarea id="asn-desc" rows="3" placeholder="Specify tasks, expected inputs, outputs, and constraints..." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-600"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Submission Instructions</label>
+              <input type="text" id="asn-instructions" value="Submit report with code screenshots or GitHub link." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-600">
+            </div>
+
+            <button type="submit" id="create-asn-btn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-lg text-xs transition-colors shadow">
+              <i class="fa-solid fa-paper-plane mr-1"></i> Publish Assignment to Students
+            </button>
+          </form>
+        </div>
+
+        <div class="lg:col-span-7 space-y-4">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-base text-slate-900">Your Active Published Assignments</h3>
+            <span class="text-xs text-slate-500 font-semibold" id="staff-asn-count">Loading...</span>
+          </div>
+
+          <div id="staff-assignments-list" class="space-y-3">
+            <!-- Dynamic assignments -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: EVALUATE STUDENT SUBMISSIONS -->
+    <section id="staff-content-grading" class="hidden space-y-4">
+      <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">Review & Grade Student Submissions</h2>
+          <p class="text-xs text-slate-500">Examine student code, solutions, and assign marks with constructive feedback.</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-100 text-slate-700 uppercase font-bold border-b border-slate-200">
+              <tr>
+                <th class="py-3 px-4">Student Name & ID</th>
+                <th class="py-3 px-4">Assignment</th>
+                <th class="py-3 px-3">Submitted At</th>
+                <th class="py-3 px-3">Artifact / Link</th>
+                <th class="py-3 px-3 text-center">Marks Awarded</th>
+                <th class="py-3 px-3 text-center">Status</th>
+                <th class="py-3 px-4 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="submissions-table-body" class="divide-y divide-slate-100 font-medium">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: MARKS & RESULTS UPLOAD -->
+    <section id="staff-content-marks" class="hidden space-y-4">
+      <div class="max-w-2xl bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <div class="border-b border-slate-100 pb-3">
+          <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-file-excel text-emerald-600"></i> Post Semester Examination Marks
+          </h3>
+          <p class="text-xs text-slate-500">Record final internal and external marks into the primary operations database.</p>
+        </div>
+
+        <form id="marks-upload-form" onsubmit="handleMarksUpload(event)" class="space-y-4">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Student College ID *</label>
+              <input type="text" id="marks-student-id" required value="24TRRCT001" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-600 font-mono font-bold uppercase">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Examination Semester *</label>
+              <select id="marks-semester" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-600 bg-white">
+                <option value="III Semester (2nd Year)">III Semester (2nd Year)</option>
+                <option value="IV Semester (2nd Year)">IV Semester (2nd Year)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">SGPA Score</label>
+              <input type="number" step="0.01" id="marks-sgpa" value="8.80" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-600">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">CGPA Cumulative</label>
+              <input type="number" step="0.01" id="marks-cgpa" value="8.75" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-600">
+            </div>
+          </div>
+
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs text-slate-600">
+            <span class="font-bold text-slate-800">Course: Database Management Systems (CS401PC)</span>
+            <div class="grid grid-cols-3 gap-3 mt-2">
+              <div>
+                <label class="block text-[10px] text-slate-500 uppercase font-bold">Internal Marks (25)</label>
+                <input type="number" id="sub-internal" value="24" class="w-full px-2 py-1 border border-slate-300 rounded text-xs">
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-500 uppercase font-bold">External Marks (75)</label>
+                <input type="number" id="sub-external" value="68" class="w-full px-2 py-1 border border-slate-300 rounded text-xs">
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-500 uppercase font-bold">Grade Code</label>
+                <input type="text" id="sub-grade" value="A+" class="w-full px-2 py-1 border border-slate-300 rounded text-xs uppercase font-bold">
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" id="marks-btn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-lg text-xs transition-colors shadow">
+            Commit Marks to Student Grade Sheet
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- TAB 6: CENTRAL DIGITAL LIBRARY -->
+    <section id="staff-content-library" class="hidden space-y-4">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="border-b border-slate-100 pb-3">
+            <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-book-bookmark text-amber-500"></i> Add Resource to Central Library
+            </h3>
+            <p class="text-xs text-slate-500">Register textbooks, lecture handouts, or question banks.</p>
+          </div>
+
+          <form id="add-library-form" onsubmit="handleAddLibraryItem(event)" class="space-y-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Resource Title *</label>
+              <input type="text" id="lib-title" required placeholder="e.g. Modern Operating Systems - Tanenbaum" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-amber-500">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Category *</label>
+                <select id="lib-category" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-amber-500 bg-white">
+                  <option value="Textbooks">Textbooks</option>
+                  <option value="Lecture Notes">Lecture Notes</option>
+                  <option value="Lab Manuals">Lab Manuals</option>
+                  <option value="Previous Question Papers">Previous Question Papers</option>
+                  <option value="Syllabus">Syllabus</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Department</label>
+                <input type="text" id="lib-dept" value="Computer Science & Engineering" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Cloud Folder / Document URL</label>
+              <input type="url" id="lib-drive-url" value="https://drive.google.com/drive/folders/1ZJhiHgZG_hhhdQN1pKJWbdlGPXueJkvK" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-amber-500 font-mono">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Author / Faculty Notes</label>
+              <input type="text" id="lib-author" placeholder="e.g. Dr. A. Ramakrishna" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none">
+            </div>
+
+            <button type="submit" id="add-lib-btn" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-lg text-xs transition-colors shadow">
+              <i class="fa-solid fa-plus mr-1"></i> Register to Central Digital Library
+            </button>
+          </form>
+        </div>
+
+        <div class="lg:col-span-7 space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-base text-slate-900">Current Library Catalog</h3>
+            <a href="/library" class="text-xs font-bold text-trr-blue hover:underline">Full View &rarr;</a>
+          </div>
+          <div id="staff-library-list" class="space-y-3">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- GRADING MODAL -->
+  <div id="grading-modal" class="fixed inset-0 z-50 modal-overlay hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="bg-emerald-800 text-white p-4 flex justify-between items-center">
+        <h3 class="font-bold text-sm">Evaluate Student Submission</h3>
+        <button onclick="closeGradingModal()" class="text-white text-xl font-bold">&times;</button>
+      </div>
+
+      <form id="grading-form" onsubmit="submitEvaluation(event)" class="p-6 space-y-4">
+        <input type="hidden" id="grade-sub-id">
+        <div>
+          <span class="text-[10px] text-slate-400 uppercase font-bold block">Student</span>
+          <h4 id="grade-student-name" class="font-bold text-sm text-slate-900"></h4>
+          <p id="grade-task-title" class="text-xs text-slate-500"></p>
+        </div>
+
+        <div id="grade-artifact-container" class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
+          <!-- Student artifact / repo link -->
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Marks Awarded * (Max: <span id="grade-max-marks">25</span>)</label>
+          <input type="number" id="grade-marks-input" required min="0" max="30" value="24" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-emerald-600 outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Evaluation Feedback & Recommendations</label>
+          <textarea id="grade-feedback-input" rows="3" placeholder="Provide constructive feedback on code structure or schema..." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-600">Excellent analysis and well-documented proofs.</textarea>
+        </div>
+
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" onclick="closeGradingModal()" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-xs font-bold hover:bg-slate-50">Cancel</button>
+          <button type="submit" id="save-grade-btn" class="bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2 rounded-lg text-xs font-bold shadow">Save & Publish Grade</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/public/js/api.js"></script>
+  <script src="/public/js/staff.js"></script>
+</body>
+</html>

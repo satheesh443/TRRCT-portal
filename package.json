@@ -1,0 +1,18 @@
+{
+  "name": "trrct-institutional-portal",
+  "version": "1.0.0",
+  "description": "TRR College of Technology Integrated Academic & Administrative Operations Management Portal",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js"
+  },
+  "keywords": [
+    "trrct",
+    "college-portal",
+    "erp",
+    "agile-architecture"
+  ],
+  "author": "TRR College of Technology Engineering Team",
+  "license": "ISC"
+}

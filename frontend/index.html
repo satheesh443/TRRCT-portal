@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRR College of Technology (TRRCT) - Integrated Institutional Portal</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/public/assets/logo.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            trr: {
+              blue: '#184995',
+              navy: '#0c234a',
+              gold: '#f59e0b',
+              light: '#f0f4fd'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Inter Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+  <!-- TOP INFORMATION BAR -->
+  <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+      <div class="flex items-center space-x-4">
+        <span class="flex items-center gap-1.5"><i class="fa-solid fa-graduation-cap text-amber-400"></i> <strong>TS EAPCET / POLYCET Code:</strong> TRRM</span>
+        <span class="hidden md:inline-block text-slate-600">|</span>
+        <span class="hidden md:flex items-center gap-1.5"><i class="fa-solid fa-building-columns text-sky-400"></i> Affiliated to JNTU Hyderabad & Approved by AICTE</span>
+      </div>
+      <div class="flex items-center space-x-5">
+        <a href="tel:+919154364306" class="hover:text-amber-400 transition-colors flex items-center gap-1"><i class="fa-solid fa-phone text-xs"></i> +91 91543 64306</a>
+        <a href="mailto:principal@trrct.co.in" class="hover:text-amber-400 transition-colors flex items-center gap-1"><i class="fa-solid fa-envelope text-xs"></i> principal@trrct.co.in</a>
+        <a href="/library" class="bg-blue-900/60 text-sky-300 hover:text-white px-2.5 py-0.5 rounded border border-blue-700/50 flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-book-bookmark text-amber-300"></i> Central Digital Library
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN NAVIGATION & HEADER -->
+  <header class="bg-white shadow-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <!-- College Logo & Title -->
+      <a href="/" class="flex items-center gap-3 group">
+        <img src="/public/assets/logo.png" alt="TRR College of Technology Logo" class="h-14 w-auto object-contain">
+        <div class="flex flex-col">
+          <span class="text-xl md:text-2xl font-black tracking-tight text-trr-blue leading-tight group-hover:text-blue-700 transition-colors">
+            TRR COLLEGE OF TECHNOLOGY
+          </span>
+          <span class="text-[11px] md:text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Approved by AICTE, New Delhi & Affiliated to JNTUH • Estd. 2004
+          </span>
+          <span class="text-[10px] text-amber-600 font-medium">
+            Pragathi Colony, Meerpet, Hyderabad - 500097
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden lg:flex items-center space-x-6 text-sm font-semibold text-slate-700">
+        <a href="#about" class="hover:text-trr-blue transition-colors">About TRRCT</a>
+        <a href="#programs" class="hover:text-trr-blue transition-colors">Academics</a>
+        <a href="#campus" class="hover:text-trr-blue transition-colors">Campus Life</a>
+        <a href="#notices" class="hover:text-trr-blue transition-colors">Notice Board</a>
+        <a href="#events" class="hover:text-trr-blue transition-colors">Events</a>
+        <a href="/library" class="text-trr-blue hover:text-blue-800 flex items-center gap-1 font-bold">
+          <i class="fa-solid fa-book-open-reader text-amber-500"></i> Digital Library
+        </a>
+      </nav>
+
+      <!-- Portal Access CTA -->
+      <div class="flex items-center gap-2">
+        <button onclick="openLoginModal('student')" class="bg-trr-blue hover:bg-blue-800 text-white text-xs md:text-sm font-bold px-4 py-2.5 rounded-lg shadow-sm hover:shadow transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In to Portal
+        </button>
+        <button id="mobile-menu-btn" class="lg:hidden text-slate-700 p-2 text-xl">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-slate-900 text-white px-4 py-4 space-y-3 border-t border-slate-800 text-sm font-medium">
+      <a href="#about" class="block py-1 hover:text-amber-400">About TRRCT</a>
+      <a href="#programs" class="block py-1 hover:text-amber-400">Academics & Courses</a>
+      <a href="#campus" class="block py-1 hover:text-amber-400">Campus Facilities</a>
+      <a href="#notices" class="block py-1 hover:text-amber-400">Notice Board</a>
+      <a href="#events" class="block py-1 hover:text-amber-400">Upcoming Events</a>
+      <a href="/library" class="block py-1 text-sky-400"><i class="fa-solid fa-book-bookmark"></i> Central Digital Library</a>
+      <div class="pt-3 border-t border-slate-800 grid grid-cols-3 gap-2 text-center text-xs">
+        <button onclick="openLoginModal('student')" class="bg-blue-700 py-2 rounded font-bold">Student</button>
+        <button onclick="openLoginModal('staff')" class="bg-emerald-700 py-2 rounded font-bold">Faculty</button>
+        <button onclick="openLoginModal('admin')" class="bg-amber-600 py-2 rounded font-bold">Admin</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- BREAKING NEWS / NOTICE BOARD TICKER -->
+  <div class="bg-amber-500 text-slate-950 font-bold text-xs py-2 px-4 flex items-center shadow-inner overflow-hidden border-y border-amber-600">
+    <div class="flex items-center gap-2 pr-4 bg-amber-500 z-10 whitespace-nowrap uppercase tracking-wider text-slate-900 border-r border-amber-600">
+      <i class="fa-solid fa-bullhorn animate-pulse text-sm"></i> Official Announcements:
+    </div>
+    <div class="relative overflow-hidden w-full whitespace-nowrap">
+      <div id="notice-ticker" class="ticker-track">
+        <span class="inline-block px-6">Loading latest academic notifications and circulars...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="relative bg-gradient-to-r from-slate-950 via-trr-navy to-trr-blue text-white py-16 md:py-24 px-4 overflow-hidden">
+    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+    
+    <div class="max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7 space-y-6">
+        <div class="inline-flex items-center gap-2 bg-amber-400/20 text-amber-300 border border-amber-400/30 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase">
+          <i class="fa-solid fa-award"></i> Academic Year 2026-27 Admissions Open
+        </div>
+        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">
+          Excellence in Technical Education & Modern Innovation
+        </h1>
+        <p class="text-slate-300 text-base md:text-lg leading-relaxed max-w-2xl">
+          Welcome to TRR College of Technology (TRRCT). Affiliated with Jawaharlal Nehru Technological University Hyderabad (JNTUH), offering industry-aligned engineering programs, dedicated research labs, and holistic student development.
+        </p>
+
+        <!-- Fast Role Access Badges -->
+        <div class="pt-2">
+          <span class="text-xs uppercase font-bold tracking-wider text-slate-400 block mb-3">Institutional Operations Portals:</span>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <!-- Student Portal Card -->
+            <div onclick="openLoginModal('student')" class="bg-white/10 hover:bg-white/20 border border-white/20 p-4 rounded-xl cursor-pointer transition-all hover:scale-[1.02] flex items-center gap-3 group">
+              <div class="w-10 h-10 rounded-lg bg-blue-600/80 flex items-center justify-center text-white text-lg group-hover:bg-blue-500 transition-colors">
+                <i class="fa-solid fa-user-graduate"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-white">Student Portal</h4>
+                <p class="text-[11px] text-slate-300">Enrollment Login</p>
+              </div>
+            </div>
+
+            <!-- Staff Portal Card -->
+            <div onclick="openLoginModal('staff')" class="bg-white/10 hover:bg-white/20 border border-white/20 p-4 rounded-xl cursor-pointer transition-all hover:scale-[1.02] flex items-center gap-3 group">
+              <div class="w-10 h-10 rounded-lg bg-emerald-600/80 flex items-center justify-center text-white text-lg group-hover:bg-emerald-500 transition-colors">
+                <i class="fa-solid fa-chalkboard-user"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-white">Faculty Portal</h4>
+                <p class="text-[11px] text-slate-300">Faculty Login</p>
+              </div>
+            </div>
+
+            <!-- Admin Console Card -->
+            <div onclick="openLoginModal('admin')" class="bg-white/10 hover:bg-white/20 border border-white/20 p-4 rounded-xl cursor-pointer transition-all hover:scale-[1.02] flex items-center gap-3 group">
+              <div class="w-10 h-10 rounded-lg bg-amber-600/80 flex items-center justify-center text-white text-lg group-hover:bg-amber-500 transition-colors">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-white">Management Console</h4>
+                <p class="text-[11px] text-slate-300">Administrative Login</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+          <a href="#notices" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-3 rounded-lg shadow-md transition-all flex items-center gap-2 text-sm">
+            <i class="fa-solid fa-clipboard-list"></i> View Notice Board
+          </a>
+          <a href="/library" class="bg-slate-800 hover:bg-slate-700 text-white font-semibold px-6 py-3 rounded-lg border border-slate-700 transition-all flex items-center gap-2 text-sm">
+            <i class="fa-solid fa-book-open text-amber-400"></i> Central Digital Library
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Column: Institutional Stats & Overview -->
+      <div class="lg:col-span-5">
+        <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 shadow-2xl space-y-5">
+          <div class="border-b border-white/15 pb-4">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-chart-line text-amber-400"></i> Academic & Administrative Overview
+            </h3>
+            <p class="text-xs text-slate-300">Integrated Enterprise Academic Management System</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-slate-900/40 p-4 rounded-xl border border-white/10">
+              <span class="text-2xl font-black text-amber-400">100%</span>
+              <p class="text-xs font-medium text-slate-300 mt-1">AICTE & JNTUH Affiliated</p>
+            </div>
+            <div class="bg-slate-900/40 p-4 rounded-xl border border-white/10">
+              <span class="text-2xl font-black text-sky-400">TRRM</span>
+              <p class="text-xs font-medium text-slate-300 mt-1">EAPCET Counseling Code</p>
+            </div>
+            <div class="bg-slate-900/40 p-4 rounded-xl border border-white/10">
+              <span class="text-2xl font-black text-emerald-400">5+</span>
+              <p class="text-xs font-medium text-slate-300 mt-1">Core Tech Branches</p>
+            </div>
+            <div class="bg-slate-900/40 p-4 rounded-xl border border-white/10">
+              <span class="text-2xl font-black text-purple-400">24/7</span>
+              <p class="text-xs font-medium text-slate-300 mt-1">Online Academic Access</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900/60 p-3.5 rounded-xl border border-white/10 flex items-center gap-3">
+            <i class="fa-solid fa-shield-check text-emerald-400 text-xl"></i>
+            <div class="text-xs text-slate-300">
+              <strong>Enterprise Role Segregation:</strong> Student assignment submissions, faculty grading, live attendance tracking, class timetables, and administrative circulars operate with secure JWT authentication.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAIRMAN'S DESK & ABOUT INSTITUTION -->
+  <section id="about" class="py-16 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Founder Card -->
+        <div class="lg:col-span-5 bg-gradient-to-br from-slate-50 to-blue-50/50 p-6 rounded-2xl border border-blue-100 shadow-sm text-center">
+          <div class="w-32 h-32 mx-auto rounded-full bg-trr-blue flex items-center justify-center text-white text-5xl shadow-md mb-4 border-4 border-white">
+            <i class="fa-solid fa-user-tie"></i>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900">Sri Teegala Ram Reddy</h3>
+          <p class="text-xs font-bold uppercase tracking-wider text-trr-blue">Founder Chairman, TRR Group of Institutions</p>
+          <div class="mt-4 text-xs text-slate-600 text-left italic border-t border-slate-200 pt-4 leading-relaxed">
+            "A visionary pioneer who initiated Hyderabad's first private Polytechnic in 2004. Under his stewardship, the TRR Group has flourished into a beacon of engineering and technical excellence in Telangana, training thousands of skilled software engineers and technocrats."
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-center gap-4 text-xs font-semibold text-slate-700">
+            <span><i class="fa-solid fa-location-dot text-rose-500"></i> Meerpet, Hyderabad</span>
+            <span><i class="fa-solid fa-calendar-check text-trr-blue"></i> 20+ Years Legacy</span>
+          </div>
+        </div>
+
+        <!-- Vision, Mission & Goals -->
+        <div class="lg:col-span-7 space-y-6">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-trr-blue bg-blue-50 px-3 py-1 rounded-full border border-blue-100">About Our Institution</span>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">Nurturing Technical Minds with Ethical Values & Innovation</h2>
+            <p class="text-slate-600 text-sm md:text-base mt-3 leading-relaxed">
+              TRR College of Technology (TRRCT) is situated at Pragathi Colony, Meerpet, Hyderabad. Established under the aegis of the Teegala Ram Reddy Educational Society, the college provides comprehensive academic infrastructure, cutting-edge computing laboratories, and high-speed campus networking to support real-world project development.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+              <div class="flex items-center gap-2 text-trr-blue font-bold text-sm mb-1.5">
+                <i class="fa-solid fa-eye text-amber-500"></i> Our Vision
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                To emerge as an acclaimed center of excellence in engineering, computing, and technological education, fostering research, innovation, and leadership.
+              </p>
+            </div>
+
+            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+              <div class="flex items-center gap-2 text-trr-blue font-bold text-sm mb-1.5">
+                <i class="fa-solid fa-bullseye text-emerald-500"></i> Our Mission
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                To provide quality outcome-based education, modern curriculum delivery, industrial collaboration, and state-of-the-art laboratory exposure to every student.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACADEMIC PROGRAMS SECTION -->
+  <section id="programs" class="py-16 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-bold uppercase tracking-wider text-trr-blue bg-blue-100/60 px-3 py-1 rounded-full border border-blue-200">Programs Offered</span>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">Undergraduate & Polytechnic Disciplines</h2>
+        <p class="text-slate-600 text-sm mt-2">Comprehensive 4-Year B.Tech Degree and 3-Year Technical Diploma programs approved by AICTE.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- CSE Card -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+          <div class="w-12 h-12 bg-blue-100 text-trr-blue rounded-xl flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-laptop-code"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Computer Science & Engineering</h3>
+          <p class="text-xs text-slate-500 mt-1">B.Tech (CSE) • 4 Years</p>
+          <p class="text-xs text-slate-600 mt-3 leading-relaxed">
+            Specialized curriculum covering Data Structures, Algorithms, Cloud Computing, Database Systems, Full-Stack Development, and Software Engineering.
+          </p>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center text-xs font-semibold">
+            <span class="text-slate-500">Intake: 180 Seats</span>
+            <span class="text-trr-blue font-bold">Code: CSE</span>
+          </div>
+        </div>
+
+        <!-- AI & ML Card -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+          <div class="w-12 h-12 bg-purple-100 text-purple-700 rounded-xl flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Artificial Intelligence & ML</h3>
+          <p class="text-xs text-slate-500 mt-1">B.Tech (AI & ML) • 4 Years</p>
+          <p class="text-xs text-slate-600 mt-3 leading-relaxed">
+            Deep dive into Neural Networks, Natural Language Processing, Computer Vision, Big Data Analytics, and Machine Learning engineering pipelines.
+          </p>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center text-xs font-semibold">
+            <span class="text-slate-500">Intake: 120 Seats</span>
+            <span class="text-purple-700 font-bold">Code: AIML</span>
+          </div>
+        </div>
+
+        <!-- ECE Card -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+          <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-microchip"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Electronics & Communication</h3>
+          <p class="text-xs text-slate-500 mt-1">B.Tech (ECE) • 4 Years</p>
+          <p class="text-xs text-slate-600 mt-3 leading-relaxed">
+            Hardware design, VLSI, Embedded Systems, IoT, Digital Signal Processing, Wireless Networks, and Telecommunication frameworks.
+          </p>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center text-xs font-semibold">
+            <span class="text-slate-500">Intake: 60 Seats</span>
+            <span class="text-emerald-700 font-bold">Code: ECE</span>
+          </div>
+        </div>
+
+        <!-- Polytechnic / Diploma Card -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+          <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-gears"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Polytechnic / Diploma</h3>
+          <p class="text-xs text-slate-500 mt-1">Diploma in Engineering • 3 Years</p>
+          <p class="text-xs text-slate-600 mt-3 leading-relaxed">
+            Hands-on technical diploma programs in Computer Engineering, Electronics, and Electrical Engineering for post-10th SSC students.
+          </p>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center text-xs font-semibold">
+            <span class="text-slate-500">TS POLYCET</span>
+            <span class="text-amber-700 font-bold">Code: TRRM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE NOTICE BOARD & UPCOMING EVENTS -->
+  <section id="notices" class="py-16 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-trr-blue bg-blue-100/60 px-3 py-1 rounded-full border border-blue-200">College Notice Board</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">Notices, Circulars & Upcoming Events</h2>
+        </div>
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap gap-2 text-xs font-semibold" id="notice-filter-buttons">
+          <button onclick="filterNotices('all')" class="filter-btn active bg-trr-blue text-white px-3.5 py-1.5 rounded-lg transition-colors">All Circulars</button>
+          <button onclick="filterNotices('Examinations')" class="filter-btn bg-slate-100 hover:bg-slate-200 text-slate-700 px-3.5 py-1.5 rounded-lg transition-colors">Examinations</button>
+          <button onclick="filterNotices('Academic')" class="filter-btn bg-slate-100 hover:bg-slate-200 text-slate-700 px-3.5 py-1.5 rounded-lg transition-colors">Academic</button>
+          <button onclick="filterNotices('Admissions')" class="filter-btn bg-slate-100 hover:bg-slate-200 text-slate-700 px-3.5 py-1.5 rounded-lg transition-colors">Admissions</button>
+          <button onclick="filterNotices('Placements')" class="filter-btn bg-slate-100 hover:bg-slate-200 text-slate-700 px-3.5 py-1.5 rounded-lg transition-colors">Placements</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Notices List Column (8 Cols) -->
+        <div class="lg:col-span-8">
+          <div id="notices-container" class="space-y-4">
+            <div class="p-8 text-center text-slate-400">
+              <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 text-trr-blue"></i>
+              <p>Loading real-time notices from TRRCT database...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upcoming Events Column (4 Cols) -->
+        <div class="lg:col-span-4" id="events">
+          <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+              <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
+                <i class="fa-solid fa-calendar-days text-amber-500"></i> Upcoming Events
+              </h3>
+              <span class="text-[11px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded">2026</span>
+            </div>
+
+            <div id="events-container" class="space-y-3">
+              <div class="p-4 text-center text-slate-400 text-xs">
+                <i class="fa-solid fa-spinner fa-spin mr-1"></i> Loading events...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAMPUS FACILITIES & DIGITAL LIBRARY SECTION -->
+  <section id="campus" class="py-16 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-bold uppercase tracking-wider text-trr-blue bg-blue-100/60 px-3 py-1 rounded-full border border-blue-200">Infrastructure</span>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">World-Class Campus & Central Digital Library</h2>
+        <p class="text-slate-600 text-sm mt-2">Equipped with enterprise cloud databases, dedicated digital library storage, and state-of-the-art engineering laboratories.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-start">
+          <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-2xl mb-4">
+            <i class="fa-solid fa-book-bookmark"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Central Digital Library</h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Centralized academic repository providing 24/7 authenticated access to standard textbooks, faculty lecture handouts, JNTUH R22 syllabus, and past question papers.
+          </p>
+          <a href="/library" class="mt-4 text-xs font-bold text-trr-blue hover:text-blue-800 flex items-center gap-1">
+            Access Digital Library <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </a>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-start">
+          <div class="w-12 h-12 bg-blue-50 text-trr-blue rounded-xl flex items-center justify-center text-2xl mb-4">
+            <i class="fa-solid fa-network-wired"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Central Computing Center</h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            High-speed gigabit fiber backbone, dedicated computing clusters, Linux workstations, and licensed development software for hands-on student projects.
+          </p>
+          <span class="mt-4 text-xs font-bold text-slate-500">High-Speed Campus WiFi</span>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-start">
+          <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-2xl mb-4">
+            <i class="fa-solid fa-handshake"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Training & Placement Cell</h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Rigorous placement training, mock technical assessments, coding bootcamps, and industrial internships connecting students with leading multinational engineering companies.
+          </p>
+          <span class="mt-4 text-xs font-bold text-emerald-600">Top Recruiters Tie-up</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 text-slate-400 text-sm mt-auto border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- Col 1: Brand Info -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-2">
+          <img src="/public/assets/logo.png" alt="TRRCT Logo" class="h-10 w-auto bg-white p-1 rounded">
+          <span class="text-white font-black tracking-tight text-base">TRRCT HYDERABAD</span>
+        </div>
+        <p class="text-xs leading-relaxed text-slate-400">
+          TRR College of Technology is approved by AICTE and affiliated to Jawaharlal Nehru Technological University Hyderabad (JNTUH). Founded under the Teegala Ram Reddy Educational Society.
+        </p>
+        <p class="text-xs text-amber-400 font-semibold">
+          TS EAPCET Code: TRRM | JNTUH Code: XZ
+        </p>
+      </div>
+
+      <!-- Col 2: Quick Links -->
+      <div class="space-y-2 text-xs">
+        <h4 class="text-white font-bold text-sm mb-3">Quick Navigation</h4>
+        <a href="#about" class="block hover:text-white transition-colors">About Institution</a>
+        <a href="#programs" class="block hover:text-white transition-colors">B.Tech & Polytechnic Courses</a>
+        <a href="#notices" class="block hover:text-white transition-colors">College Notice Board</a>
+        <a href="#events" class="block hover:text-white transition-colors">Upcoming Events & Hackathons</a>
+        <a href="/library" class="block text-sky-400 hover:text-sky-300 transition-colors">Central Digital Library</a>
+      </div>
+
+      <!-- Col 3: Portal Logins -->
+      <div class="space-y-2 text-xs">
+        <h4 class="text-white font-bold text-sm mb-3">Operational Portals</h4>
+        <button onclick="openLoginModal('student')" class="block text-left text-slate-300 hover:text-white transition-colors">
+          <i class="fa-solid fa-user-graduate text-blue-400 mr-1.5"></i> Student Academic Portal
+        </button>
+        <button onclick="openLoginModal('staff')" class="block text-left text-slate-300 hover:text-white transition-colors">
+          <i class="fa-solid fa-chalkboard-user text-emerald-400 mr-1.5"></i> Faculty Management Portal
+        </button>
+        <button onclick="openLoginModal('admin')" class="block text-left text-slate-300 hover:text-white transition-colors">
+          <i class="fa-solid fa-shield-halved text-amber-400 mr-1.5"></i> Management / Admin Console
+        </button>
+        <a href="/library" class="block text-slate-300 hover:text-white transition-colors">
+          <i class="fa-solid fa-book-bookmark text-amber-400 mr-1.5"></i> Digital Library
+        </a>
+      </div>
+
+      <!-- Col 4: Campus Address -->
+      <div class="space-y-2 text-xs">
+        <h4 class="text-white font-bold text-sm mb-3">Campus Contact</h4>
+        <p class="text-slate-300"><i class="fa-solid fa-location-dot text-rose-400 mr-1.5"></i> Pragathi Colony, Meerpet, Balapur Mandal, Ranga Reddy District, Hyderabad, Telangana - 500097</p>
+        <p class="text-slate-300"><i class="fa-solid fa-phone text-emerald-400 mr-1.5"></i> +91 91543 64306</p>
+        <p class="text-slate-300"><i class="fa-solid fa-envelope text-sky-400 mr-1.5"></i> principal@trrct.co.in</p>
+        <p class="text-slate-300"><i class="fa-solid fa-envelope text-amber-400 mr-1.5"></i> mailadmissions@trrct.co.in</p>
+      </div>
+    </div>
+
+    <div class="border-t border-slate-900 py-4 px-4 text-center text-xs text-slate-400">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+        <span>&copy; 2026 TRR College of Technology (TRRCT). All Rights Reserved.</span>
+        <span>Integrated Campus Operations & Digital Repository System</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AUTHENTICATION / LOGIN MODAL (CLEAN & PROFESSIONAL - ZERO DEMO LABELS) -->
+  <div id="login-modal" class="fixed inset-0 z-50 modal-overlay hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
+      <!-- Modal Header -->
+      <div class="bg-gradient-to-r from-trr-navy to-trr-blue text-white p-5 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <img src="/public/assets/logo.png" alt="Logo" class="h-9 w-auto bg-white p-0.5 rounded">
+          <div>
+            <h3 class="font-bold text-base leading-tight">TRR College of Technology</h3>
+            <p class="text-[11px] text-slate-300">Integrated Institutional Portal Authentication</p>
+          </div>
+        </div>
+        <button onclick="closeLoginModal()" class="text-white/80 hover:text-white text-xl">&times;</button>
+      </div>
+
+      <!-- Tab Buttons for Roles -->
+      <div class="grid grid-cols-3 bg-slate-100 p-1.5 text-xs font-bold border-b border-slate-200">
+        <button id="tab-btn-student" onclick="switchLoginTab('student')" class="py-2 rounded-lg transition-colors text-trr-blue bg-white shadow-sm">
+          <i class="fa-solid fa-user-graduate"></i> Student
+        </button>
+        <button id="tab-btn-staff" onclick="switchLoginTab('staff')" class="py-2 rounded-lg transition-colors text-slate-600 hover:text-slate-900">
+          <i class="fa-solid fa-chalkboard-user"></i> Faculty
+        </button>
+        <button id="tab-btn-admin" onclick="switchLoginTab('admin')" class="py-2 rounded-lg transition-colors text-slate-600 hover:text-slate-900">
+          <i class="fa-solid fa-shield-halved"></i> Admin
+        </button>
+      </div>
+
+      <!-- Form Body -->
+      <div class="p-6">
+        <!-- 1. STUDENT LOGIN FORM -->
+        <form id="student-login-form" onsubmit="handleStudentLogin(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">College ID / Enrollment Number</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fa-solid fa-id-card"></i></span>
+              <input type="text" id="student-college-id" required placeholder="Enter College ID (e.g. 24TRRCT001)" class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-trr-blue focus:border-trr-blue outline-none uppercase font-semibold">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fa-solid fa-lock"></i></span>
+              <input type="password" id="student-dob" required placeholder="Enter Password / Date of Birth" class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-trr-blue focus:border-trr-blue outline-none">
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1.5 flex items-center gap-1">
+              <i class="fa-solid fa-circle-info text-blue-500"></i> Default password is your registered Date of Birth (DD-MM-YYYY).
+            </p>
+          </div>
+
+          <button type="submit" id="student-login-btn" class="w-full bg-trr-blue hover:bg-blue-800 text-white font-bold py-2.5 rounded-lg text-sm transition-colors shadow">
+            Sign In to Student Portal
+          </button>
+        </form>
+
+        <!-- 2. STAFF LOGIN FORM -->
+        <form id="staff-login-form" onsubmit="handleStaffLogin(event)" class="space-y-4 hidden">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Faculty Staff ID</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fa-solid fa-briefcase"></i></span>
+              <input type="text" id="staff-id" required placeholder="Enter Staff ID (e.g. FAC-CSE-01)" class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none uppercase font-semibold">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fa-solid fa-lock"></i></span>
+              <input type="password" id="staff-password" required placeholder="Enter faculty password" class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none">
+            </div>
+          </div>
+
+          <button type="submit" id="staff-login-btn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-lg text-sm transition-colors shadow">
+            Sign In to Faculty Portal
+          </button>
+        </form>
+
+        <!-- 3. ADMIN LOGIN FORM -->
+        <form id="admin-login-form" onsubmit="handleAdminLogin(event)" class="space-y-4 hidden">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Admin Username / Institutional Email</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fa-solid fa-user-shield"></i></span>
+              <input type="text" id="admin-username" required placeholder="admin or principal@trrct.co.in" class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-600 focus:border-amber-600 outline-none font-semibold">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Administrative Password</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fa-solid fa-key"></i></span>
+              <input type="password" id="admin-password" required placeholder="Enter administrative password" class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-600 focus:border-amber-600 outline-none">
+            </div>
+          </div>
+
+          <button type="submit" id="admin-login-btn" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-lg text-sm transition-colors shadow">
+            Sign In to Management Console
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTICE DETAIL MODAL -->
+  <div id="notice-modal" class="fixed inset-0 z-50 modal-overlay hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
+      <div class="bg-trr-blue text-white p-4 flex justify-between items-center">
+        <span id="notice-modal-category" class="bg-amber-400 text-slate-950 text-xs font-extrabold px-2.5 py-0.5 rounded uppercase">Notice</span>
+        <button onclick="closeNoticeModal()" class="text-white hover:text-slate-200 text-xl font-bold">&times;</button>
+      </div>
+      <div class="p-6 space-y-4">
+        <h3 id="notice-modal-title" class="text-lg font-bold text-slate-900 leading-snug"></h3>
+        <div class="flex items-center gap-4 text-xs text-slate-500 border-b border-slate-100 pb-3">
+          <span><i class="fa-solid fa-calendar-day mr-1"></i> <span id="notice-modal-date"></span></span>
+          <span><i class="fa-solid fa-user mr-1"></i> <span id="notice-modal-author"></span></span>
+        </div>
+        <p id="notice-modal-content" class="text-sm text-slate-700 leading-relaxed whitespace-pre-line"></p>
+        <div id="notice-modal-attachment" class="hidden pt-3 border-t border-slate-100">
+          <a id="notice-modal-link" href="#" target="_blank" class="inline-flex items-center gap-2 bg-blue-50 text-trr-blue hover:bg-blue-100 border border-blue-200 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
+            <i class="fa-solid fa-paperclip"></i> View Official Document
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Client JavaScript -->
+  <script src="/public/js/api.js"></script>
+  <script src="/public/js/home.js"></script>
+</body>
+</html>

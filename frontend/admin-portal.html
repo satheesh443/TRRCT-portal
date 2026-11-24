@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Management Admin Console - TRR College of Technology</title>
+  
+  <link rel="icon" type="image/png" href="/public/assets/logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            trr: {
+              blue: '#184995',
+              navy: '#0c234a',
+              gold: '#f59e0b',
+              light: '#f0f4fd'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- TOP APP HEADER -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2.5">
+          <img src="/public/assets/logo.png" alt="Logo" class="h-10 w-auto">
+          <div class="flex flex-col">
+            <span class="font-extrabold text-sm md:text-base text-trr-blue leading-tight">TRR COLLEGE OF TECHNOLOGY</span>
+            <span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Executive Management & Admin Console</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div class="hidden sm:flex flex-col text-right">
+          <span id="header-admin-name" class="font-bold text-xs text-slate-900">Dr. P. Venkata Rao</span>
+          <span class="text-[10px] text-slate-500 font-mono">Principal & System Administrator</span>
+        </div>
+        <div class="w-9 h-9 rounded-full bg-amber-100 text-amber-800 font-bold flex items-center justify-center text-sm border border-amber-200">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <button onclick="API.logout()" class="bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-600 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-200 transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- DASHBOARD WRAPPER -->
+  <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-6">
+
+    <!-- ADMIN OVERVIEW METRICS BANNER -->
+    <div class="bg-gradient-to-r from-slate-900 via-trr-navy to-slate-900 text-white rounded-2xl p-6 shadow-md relative overflow-hidden">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center relative z-10">
+        <div class="md:col-span-6 space-y-1">
+          <span class="bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded">Management Console</span>
+          <h1 id="admin-name-display" class="text-2xl font-black tracking-tight">Office of the Principal</h1>
+          <p class="text-xs text-slate-300">
+            TRR College of Technology • Pragathi Colony, Meerpet, Hyderabad
+          </p>
+          <div class="pt-1 flex flex-wrap gap-2 text-[10px]">
+            <span class="bg-emerald-900/60 text-emerald-300 border border-emerald-700/50 px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1">
+              <i class="fa-solid fa-database"></i> Primary Operations DB: MongoDB
+            </span>
+            <span class="bg-blue-900/60 text-sky-300 border border-blue-700/50 px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1">
+              <i class="fa-solid fa-cloud"></i> Digital Library: Central Cloud Storage
+            </span>
+          </div>
+        </div>
+
+        <div class="md:col-span-6 grid grid-cols-3 gap-3">
+          <div class="bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/10 text-center">
+            <span class="text-[10px] text-slate-300 block uppercase font-bold">Total Students</span>
+            <span id="metric-admin-students" class="text-xl font-black text-sky-400">--</span>
+            <span class="text-[9px] text-slate-300 block mt-0.5">Enrolled</span>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/10 text-center">
+            <span class="text-[10px] text-slate-300 block uppercase font-bold">Total Faculty</span>
+            <span id="metric-admin-faculty" class="text-xl font-black text-emerald-400">--</span>
+            <span class="text-[9px] text-slate-300 block mt-0.5">Active</span>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/10 text-center">
+            <span class="text-[10px] text-slate-300 block uppercase font-bold">Notice Board</span>
+            <span id="metric-admin-notices" class="text-xl font-black text-amber-400">--</span>
+            <span class="text-[9px] text-slate-300 block mt-0.5">Circulars</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPERATIONS NAVIGATION TABS -->
+    <div class="bg-white p-2 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-2 text-xs font-bold">
+      <button onclick="switchAdminTab('notices')" id="admin-tab-notices" class="admin-nav-tab active bg-trr-blue text-white px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-bullhorn"></i> Notice Board Management
+      </button>
+      <button onclick="switchAdminTab('events')" id="admin-tab-events" class="admin-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-calendar-plus text-amber-600"></i> Upcoming Events
+      </button>
+      <button onclick="switchAdminTab('students')" id="admin-tab-students" class="admin-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-user-graduate text-sky-600"></i> Student Records
+      </button>
+      <button onclick="switchAdminTab('staff')" id="admin-tab-staff" class="admin-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-chalkboard-user text-emerald-600"></i> Faculty Directory
+      </button>
+      <button onclick="switchAdminTab('library')" id="admin-tab-library" class="admin-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-book-bookmark text-amber-600"></i> Central Library Admin
+      </button>
+    </div>
+
+    <!-- TAB 1: NOTICE BOARD CRUD -->
+    <section id="admin-content-notices" class="space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="border-b border-slate-100 pb-3">
+            <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-plus-circle text-trr-blue"></i> Publish Official Circular / Notice
+            </h3>
+            <p class="text-xs text-slate-500">Notice displays immediately on public homepage and student portals.</p>
+          </div>
+
+          <form id="create-notice-form" onsubmit="handleCreateNotice(event)" class="space-y-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Notice Title *</label>
+              <input type="text" id="notice-title" required placeholder="e.g. Mid-Term Examination Schedule Announcement" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-trr-blue font-semibold">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Category *</label>
+                <select id="notice-category" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-trr-blue bg-white">
+                  <option value="Examinations">Examinations</option>
+                  <option value="Academic">Academic</option>
+                  <option value="Admissions">Admissions</option>
+                  <option value="Placements">Placements</option>
+                  <option value="Events">Events</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Priority</label>
+                <select id="notice-priority" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-trr-blue bg-white">
+                  <option value="normal">Normal</option>
+                  <option value="high">High (Breaking Ticker)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Notice Content & Details *</label>
+              <textarea id="notice-content" required rows="4" placeholder="Detailed official text of the circular..." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-trr-blue"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Attach Circular Document (Optional PDF)</label>
+              <input type="file" id="notice-file" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-trr-blue border border-slate-300 rounded-lg p-1.5">
+            </div>
+
+            <button type="submit" id="notice-submit-btn" class="w-full bg-trr-blue hover:bg-blue-800 text-white font-bold py-2.5 rounded-lg text-xs transition-colors shadow">
+              <i class="fa-solid fa-bullhorn mr-1"></i> Post to College Notice Board
+            </button>
+          </form>
+        </div>
+
+        <div class="lg:col-span-7 space-y-4">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-base text-slate-900">Active College Circulars</h3>
+            <span class="text-xs text-slate-500" id="admin-notice-count">Loading...</span>
+          </div>
+
+          <div id="admin-notices-list" class="space-y-3">
+            <!-- Dynamic notices -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: UPCOMING EVENTS MANAGER -->
+    <section id="admin-content-events" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="border-b border-slate-100 pb-3">
+            <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-calendar-plus text-amber-500"></i> Add Upcoming Campus Event
+            </h3>
+            <p class="text-xs text-slate-500">Workshops, Hackathons, Sports Day, or Tech Fests.</p>
+          </div>
+
+          <form id="create-event-form" onsubmit="handleCreateEvent(event)" class="space-y-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Event Title *</label>
+              <input type="text" id="evt-title" required placeholder="e.g. National Level Hackathon 2026" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-amber-500 font-semibold">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Event Date *</label>
+                <input type="date" id="evt-date" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-amber-500">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Event Time</label>
+                <input type="text" id="evt-time" value="09:30 AM - 04:30 PM" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Venue *</label>
+              <input type="text" id="evt-venue" required value="Campus Auditorium & Seminar Hall" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Description</label>
+              <textarea id="evt-desc" rows="3" placeholder="Overview of the event, organizers, and target audience..." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none"></textarea>
+            </div>
+
+            <button type="submit" id="evt-submit-btn" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-lg text-xs transition-colors shadow">
+              <i class="fa-solid fa-calendar-check mr-1"></i> Add Event to Calendar
+            </button>
+          </form>
+        </div>
+
+        <div class="lg:col-span-7 space-y-4">
+          <h3 class="font-bold text-base text-slate-900">Scheduled Campus Events</h3>
+          <div id="admin-events-list" class="space-y-3">
+            <!-- Dynamic events -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: STUDENT RECORDS -->
+    <section id="admin-content-students" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="border-b border-slate-100 pb-3">
+            <h3 class="font-bold text-base text-slate-900">Enrol New Student</h3>
+            <p class="text-xs text-slate-500">Stores credentials directly into MongoDB Operations DB.</p>
+          </div>
+
+          <form id="enrol-student-form" onsubmit="handleEnrolStudent(event)" class="space-y-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">College ID (Login Username) *</label>
+              <input type="text" id="enrol-stu-id" required placeholder="e.g. 24TRRCT006" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs font-mono font-bold uppercase outline-none focus:ring-2 focus:ring-trr-blue">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Full Student Name *</label>
+              <input type="text" id="enrol-stu-name" required placeholder="e.g. Praveen Kumar" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-trr-blue">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Date of Birth (DD-MM-YYYY) *</label>
+              <input type="text" id="enrol-stu-dob" required placeholder="DD-MM-YYYY (e.g. 18-06-2004)" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-trr-blue">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Branch / Department</label>
+              <select id="enrol-stu-dept" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none bg-white">
+                <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+                <option value="Artificial Intelligence & ML">Artificial Intelligence & ML</option>
+                <option value="Electronics & Communication Engineering">Electronics & Communication Engineering</option>
+                <option value="Electrical & Electronics Engineering">Electrical & Electronics Engineering</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Roll Number</label>
+              <input type="text" id="enrol-stu-roll" placeholder="e.g. 22TR1A0506" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs font-mono outline-none">
+            </div>
+
+            <button type="submit" id="enrol-stu-btn" class="w-full bg-trr-blue hover:bg-blue-800 text-white font-bold py-2.5 rounded-lg text-xs transition-colors shadow">
+              Enrol Student Record
+            </button>
+          </form>
+        </div>
+
+        <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+          <div class="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
+            <h3 class="font-bold text-sm text-slate-900">Student Directory (MongoDB Database)</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 text-slate-700 uppercase font-bold border-b border-slate-200">
+                <tr>
+                  <th class="py-3 px-4">College ID</th>
+                  <th class="py-3 px-4">Name</th>
+                  <th class="py-3 px-4">Branch</th>
+                  <th class="py-3 px-4">Roll Number</th>
+                  <th class="py-3 px-4 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="admin-students-table" class="divide-y divide-slate-100 font-medium">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: FACULTY DIRECTORY -->
+    <section id="admin-content-staff" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="border-b border-slate-100 pb-3">
+            <h3 class="font-bold text-base text-slate-900">Enrol Faculty Member</h3>
+            <p class="text-xs text-slate-500">Configure Staff ID and password.</p>
+          </div>
+
+          <form id="enrol-staff-form" onsubmit="handleEnrolStaff(event)" class="space-y-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Staff ID (Login ID) *</label>
+              <input type="text" id="enrol-staff-id" required placeholder="e.g. FAC-CSE-04" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs font-mono font-bold uppercase outline-none focus:ring-2 focus:ring-emerald-600">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Faculty Name *</label>
+              <input type="text" id="enrol-staff-name" required placeholder="e.g. Dr. P. Suresh" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Password *</label>
+              <input type="password" id="enrol-staff-pwd" required placeholder="••••••••" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Department</label>
+              <select id="enrol-staff-dept" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none bg-white">
+                <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+                <option value="Electronics & Communication Engineering">Electronics & Communication Engineering</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Designation</label>
+              <input type="text" id="enrol-staff-desig" value="Assistant Professor" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none">
+            </div>
+
+            <button type="submit" id="enrol-staff-btn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-lg text-xs transition-colors shadow">
+              Enrol Faculty
+            </button>
+          </form>
+        </div>
+
+        <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+          <div class="p-4 bg-slate-50 border-b border-slate-200">
+            <h3 class="font-bold text-sm text-slate-900">Faculty Roster</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 text-slate-700 uppercase font-bold border-b border-slate-200">
+                <tr>
+                  <th class="py-3 px-4">Staff ID</th>
+                  <th class="py-3 px-4">Name</th>
+                  <th class="py-3 px-4">Department</th>
+                  <th class="py-3 px-4">Designation</th>
+                  <th class="py-3 px-4">Role</th>
+                </tr>
+              </thead>
+              <tbody id="admin-staff-table" class="divide-y divide-slate-100 font-medium">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: CENTRAL DIGITAL LIBRARY ADMIN -->
+    <section id="admin-content-library" class="hidden space-y-4">
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-book-bookmark text-amber-500"></i> Central Digital Library Repository
+            </h3>
+            <p class="text-xs text-slate-500">Manage digital textbooks, curriculum copies, and research archives.</p>
+          </div>
+          <a href="/library" class="bg-trr-blue hover:bg-blue-800 text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors">
+            Access Library View
+          </a>
+        </div>
+
+        <div id="admin-library-table" class="space-y-3">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/public/js/api.js"></script>
+  <script src="/public/js/admin.js"></script>
+</body>
+</html>

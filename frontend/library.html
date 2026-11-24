@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Central Digital Library - TRR College of Technology</title>
+  
+  <link rel="icon" type="image/png" href="/public/assets/logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            trr: {
+              blue: '#184995',
+              navy: '#0c234a',
+              gold: '#f59e0b',
+              light: '#f0f4fd'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- TOP HEADER -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2.5">
+          <img src="/public/assets/logo.png" alt="Logo" class="h-10 w-auto">
+          <div class="flex flex-col">
+            <span class="font-extrabold text-sm md:text-base text-trr-blue leading-tight">TRR COLLEGE OF TECHNOLOGY</span>
+            <span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider flex items-center gap-1">
+              <i class="fa-solid fa-book-bookmark"></i> Central Digital Library Repository
+            </span>
+          </div>
+        </a>
+      </div>
+
+      <div class="flex items-center gap-3" id="library-header-user">
+        <a href="/" class="text-xs font-bold text-trr-blue hover:underline">
+          <i class="fa-solid fa-arrow-left"></i> Home Page
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN LIBRARY CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full space-y-6">
+
+    <!-- UNAUTHENTICATED RESTRICTION BANNER -->
+    <div id="auth-restriction-banner" class="hidden bg-white rounded-2xl border border-amber-300 p-8 text-center max-w-xl mx-auto shadow-lg space-y-4">
+      <div class="w-16 h-16 mx-auto rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-3xl">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <div>
+        <h2 class="text-xl font-black text-slate-900">Protected Academic Repository</h2>
+        <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+          The Central Digital Library repository is strictly restricted to authenticated Students, Faculty, and Management. Please sign in to access textbooks, course notes, and question banks.
+        </p>
+      </div>
+      <div class="pt-2 flex flex-col sm:flex-row justify-center gap-3">
+        <button onclick="openLoginModal('student')" class="bg-trr-blue hover:bg-blue-800 text-white text-xs font-bold px-5 py-2.5 rounded-lg shadow transition-colors">
+          <i class="fa-solid fa-user-graduate mr-1"></i> Student Login
+        </button>
+        <button onclick="openLoginModal('staff')" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-5 py-2.5 rounded-lg shadow transition-colors">
+          <i class="fa-solid fa-chalkboard-user mr-1"></i> Faculty Login
+        </button>
+      </div>
+    </div>
+
+    <!-- AUTHENTICATED LIBRARY CONTENT -->
+    <div id="authenticated-library-content" class="hidden space-y-6">
+
+      <!-- LIBRARY HERO BANNER -->
+      <div class="bg-gradient-to-r from-amber-600 via-amber-700 to-yellow-600 text-white rounded-2xl p-6 shadow-md relative overflow-hidden">
+        <div class="relative z-10 max-w-2xl space-y-2">
+          <span class="bg-white/20 text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-white/20">
+            <i class="fa-solid fa-book-bookmark mr-1"></i> Academic Knowledge Base
+          </span>
+          <h1 class="text-2xl md:text-3xl font-black tracking-tight">Central Digital Library & Academic Repository</h1>
+          <p class="text-xs text-amber-100 leading-relaxed">
+            Centralized online repository for prescribed textbooks, official JNTUH R22 curricula, lab practical manuals, faculty lecture notes, and university examination question banks.
+          </p>
+          <div class="pt-2 flex flex-wrap items-center gap-3 text-xs">
+            <a href="https://drive.google.com/drive/folders/1ZJhiHgZG_hhhdQN1pKJWbdlGPXueJkvK" target="_blank" class="bg-white text-slate-900 hover:bg-amber-50 font-bold px-4 py-2 rounded-lg shadow-sm flex items-center gap-2 transition-colors">
+              <i class="fa-solid fa-folder-open text-amber-600"></i> Open Central Repository Folder <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </a>
+            <span class="text-amber-200 text-[11px]"><i class="fa-solid fa-shield-check"></i> Session Verified: <strong id="session-user-badge" class="text-white"></strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEARCH & FILTER TOOLBAR -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+        <div class="flex flex-col md:flex-row gap-3">
+          <div class="relative flex-1">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <input type="text" id="lib-search-input" oninput="applyFilters()" placeholder="Search by title, author, subject, or keywords (e.g. DBMS, Algorithms, Tanenbaum)..." class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-amber-500">
+          </div>
+
+          <div class="md:w-64">
+            <select id="lib-dept-filter" onchange="applyFilters()" class="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-amber-500 bg-white font-semibold">
+              <option value="All">All Departments</option>
+              <option value="Computer Science">Computer Science & Engineering</option>
+              <option value="Electronics">Electronics & Communication</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Category Pill Buttons -->
+        <div class="flex flex-wrap gap-2 text-xs font-semibold pt-1 border-t border-slate-100" id="lib-category-pills">
+          <button onclick="setCategoryFilter('All')" class="lib-cat-btn active bg-amber-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg transition-colors">All Resources</button>
+          <button onclick="setCategoryFilter('Textbooks')" class="lib-cat-btn bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg transition-colors">Textbooks</button>
+          <button onclick="setCategoryFilter('Lecture Notes')" class="lib-cat-btn bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg transition-colors">Lecture Notes</button>
+          <button onclick="setCategoryFilter('Lab Manuals')" class="lib-cat-btn bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg transition-colors">Lab Manuals</button>
+          <button onclick="setCategoryFilter('Previous Question Papers')" class="lib-cat-btn bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg transition-colors">Previous Question Papers</button>
+          <button onclick="setCategoryFilter('Syllabus')" class="lib-cat-btn bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg transition-colors">JNTUH Syllabus</button>
+        </div>
+      </div>
+
+      <!-- RESOURCE CARDS GRID -->
+      <div id="library-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- DOCUMENT PREVIEW MODAL -->
+  <div id="gdrive-preview-modal" class="fixed inset-0 z-50 modal-overlay hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-4xl w-full h-[85vh] shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
+      <div class="bg-slate-900 text-white p-4 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-book-bookmark text-amber-400 text-lg"></i>
+          <div>
+            <h3 id="preview-modal-title" class="font-bold text-sm leading-tight text-white">Document Preview</h3>
+            <span id="preview-modal-meta" class="text-[11px] text-slate-400"></span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <a id="preview-open-external" href="#" target="_blank" class="text-xs bg-slate-800 hover:bg-slate-700 text-sky-300 px-3 py-1.5 rounded border border-slate-700 font-bold flex items-center gap-1.5">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Open in Viewer
+          </a>
+          <button onclick="closePreviewModal()" class="text-white hover:text-slate-300 text-xl font-bold">&times;</button>
+        </div>
+      </div>
+
+      <div class="flex-1 bg-slate-100 relative p-2 flex flex-col justify-center items-center">
+        <div class="bg-white w-full h-full rounded-xl border border-slate-200 shadow-inner flex flex-col justify-between p-8 text-center overflow-auto">
+          <div class="max-w-lg mx-auto space-y-4 my-auto">
+            <div class="w-20 h-20 mx-auto rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-4xl shadow-sm border border-amber-200">
+              <i class="fa-solid fa-file-pdf"></i>
+            </div>
+            <div>
+              <span id="preview-doc-badge" class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Academic Reference Document</span>
+              <h2 id="preview-doc-title" class="text-xl font-bold text-slate-900 mt-2"></h2>
+              <p id="preview-doc-author" class="text-xs text-slate-500 mt-1"></p>
+              <p id="preview-doc-desc" class="text-xs text-slate-600 mt-3 leading-relaxed"></p>
+            </div>
+            <div class="pt-4 flex flex-wrap justify-center gap-3">
+              <a id="preview-doc-download-btn" href="#" target="_blank" class="bg-trr-blue hover:bg-blue-800 text-white text-xs font-bold px-6 py-2.5 rounded-lg shadow transition-colors flex items-center gap-2">
+                <i class="fa-solid fa-download"></i> View / Download Document
+              </a>
+              <button onclick="closePreviewModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-4 py-2.5 rounded-lg transition-colors">
+                Back to Catalog
+              </button>
+            </div>
+          </div>
+          <div class="text-[11px] text-slate-400 border-t border-slate-100 pt-3">
+            Authenticated Academic Access • TRR College of Technology Central Digital Library
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTH MODAL -->
+  <div id="login-modal" class="fixed inset-0 z-50 modal-overlay hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
+      <div class="bg-trr-blue text-white p-4 flex justify-between items-center">
+        <h3 class="font-bold text-sm">Sign In to Access Central Digital Library</h3>
+        <button onclick="closeLoginModal()" class="text-white text-xl">&times;</button>
+      </div>
+      <div class="p-6">
+        <form onsubmit="handleLibraryLogin(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">College ID / Faculty Staff ID</label>
+            <input type="text" id="lib-login-id" required placeholder="Enter your ID" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none uppercase font-bold">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Password</label>
+            <input type="password" id="lib-login-pwd" required placeholder="Enter Password" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none">
+          </div>
+          <button type="submit" id="lib-login-submit" class="w-full bg-trr-blue hover:bg-blue-800 text-white font-bold py-2.5 rounded-lg text-xs shadow">
+            Authenticate & Access Library
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/public/js/api.js"></script>
+  <script src="/public/js/library.js"></script>
+</body>
+</html>
