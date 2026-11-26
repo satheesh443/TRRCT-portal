@@ -524,19 +524,19 @@
     </div>
   </footer>
 
-  <!-- AUTHENTICATION / LOGIN MODAL (CLEAN & PROFESSIONAL - ZERO DEMO LABELS) -->
-  <div id="login-modal" class="fixed inset-0 z-50 modal-overlay hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
+  <!-- AUTHENTICATION / LOGIN MODAL -->
+  <div id="login-modal" class="fixed inset-0 z-50 modal-overlay hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] overflow-y-auto transform transition-all">
       <!-- Modal Header -->
-      <div class="bg-gradient-to-r from-trr-navy to-trr-blue text-white p-5 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <img src="/public/assets/logo.png" alt="Logo" class="h-9 w-auto bg-white p-0.5 rounded">
+      <div class="bg-gradient-to-r from-trr-navy to-trr-blue text-white p-4 sm:p-5 flex justify-between items-center">
+        <div class="flex items-center gap-2.5 sm:gap-3">
+          <img src="/public/assets/logo.png" alt="Logo" class="h-8 sm:h-9 w-auto bg-white p-0.5 rounded">
           <div>
-            <h3 class="font-bold text-base leading-tight">TRR College of Technology</h3>
-            <p class="text-[11px] text-slate-300">Integrated Institutional Portal Authentication</p>
+            <h3 class="font-bold text-sm sm:text-base leading-tight">TRR College of Technology</h3>
+            <p class="text-[10px] sm:text-[11px] text-slate-300">Integrated Institutional Portal Authentication</p>
           </div>
         </div>
-        <button onclick="closeLoginModal()" class="text-white/80 hover:text-white text-xl">&times;</button>
+        <button onclick="closeLoginModal()" class="text-white/80 hover:text-white text-xl font-bold">&times;</button>
       </div>
 
       <!-- Tab Buttons for Roles -->
@@ -553,7 +553,7 @@
       </div>
 
       <!-- Form Body -->
-      <div class="p-6">
+      <div class="p-4 sm:p-6">
         <!-- 1. STUDENT LOGIN FORM -->
         <form id="student-login-form" onsubmit="handleStudentLogin(event)" class="space-y-4">
           <div>
@@ -568,7 +568,7 @@
             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fa-solid fa-lock"></i></span>
-              <input type="password" id="student-dob" required placeholder="Enter Password / Date of Birth" class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-trr-blue focus:border-trr-blue outline-none">
+              <input type="password" id="student-dob" required placeholder="Enter Password / DOB (DD-MM-YYYY)" class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-trr-blue focus:border-trr-blue outline-none">
             </div>
             <p class="text-[11px] text-slate-500 mt-1.5 flex items-center gap-1">
               <i class="fa-solid fa-circle-info text-blue-500"></i> Default password is your registered Date of Birth (DD-MM-YYYY).
@@ -594,7 +594,7 @@
             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fa-solid fa-lock"></i></span>
-              <input type="password" id="staff-password" required placeholder="Enter faculty password" class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none">
+              <input type="password" id="staff-password" required placeholder="Enter Password" class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none">
             </div>
           </div>
 
@@ -609,7 +609,7 @@
             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Admin Username / Institutional Email</label>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fa-solid fa-user-shield"></i></span>
-              <input type="text" id="admin-username" required placeholder="admin or principal@trrct.co.in" class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-600 focus:border-amber-600 outline-none font-semibold">
+              <input type="text" id="admin-username" required placeholder="Enter Admin Username (e.g. admin)" class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-600 focus:border-amber-600 outline-none font-semibold">
             </div>
           </div>
 
@@ -617,7 +617,7 @@
             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Administrative Password</label>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fa-solid fa-key"></i></span>
-              <input type="password" id="admin-password" required placeholder="Enter administrative password" class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-600 focus:border-amber-600 outline-none">
+              <input type="password" id="admin-password" required placeholder="Enter Password" class="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-600 focus:border-amber-600 outline-none">
             </div>
           </div>
 
@@ -630,8 +630,8 @@
   </div>
 
   <!-- NOTICE DETAIL MODAL -->
-  <div id="notice-modal" class="fixed inset-0 z-50 modal-overlay hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
+  <div id="notice-modal" class="fixed inset-0 z-50 modal-overlay hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] overflow-y-auto transform transition-all">
       <div class="bg-trr-blue text-white p-4 flex justify-between items-center">
         <span id="notice-modal-category" class="bg-amber-400 text-slate-950 text-xs font-extrabold px-2.5 py-0.5 rounded uppercase">Notice</span>
         <button onclick="closeNoticeModal()" class="text-white hover:text-slate-200 text-xl font-bold">&times;</button>

@@ -31,69 +31,69 @@
 
   <!-- TOP APP NAV -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <a href="/" class="flex items-center gap-2.5">
-          <img src="/public/assets/logo.png" alt="Logo" class="h-10 w-auto">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center gap-2">
+      <div class="flex items-center gap-2.5 sm:gap-3">
+        <a href="/" class="flex items-center gap-2 sm:gap-2.5">
+          <img src="/public/assets/logo.png" alt="Logo" class="h-8 sm:h-10 w-auto">
           <div class="flex flex-col">
-            <span class="font-extrabold text-sm md:text-base text-trr-blue leading-tight">TRR COLLEGE OF TECHNOLOGY</span>
-            <span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Student Academic Operations Portal</span>
+            <span class="font-extrabold text-xs sm:text-sm md:text-base text-trr-blue leading-tight">TRR COLLEGE OF TECHNOLOGY</span>
+            <span class="text-[9px] sm:text-[10px] font-bold text-amber-600 uppercase tracking-wider">Student Academic Operations Portal</span>
           </div>
         </a>
       </div>
 
       <!-- User Profile & Logout -->
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2 sm:gap-4">
         <div class="hidden sm:flex flex-col text-right">
-          <span id="header-student-name" class="font-bold text-xs text-slate-900">Aditya Varma</span>
-          <span id="header-student-id" class="text-[10px] text-slate-500 font-mono">24TRRCT001 • CSE</span>
+          <span id="header-student-name" class="font-bold text-xs text-slate-900">Student Profile</span>
+          <span id="header-student-id" class="text-[10px] text-slate-500 font-mono">Enrolled Student</span>
         </div>
-        <div class="w-9 h-9 rounded-full bg-blue-100 text-trr-blue font-bold flex items-center justify-center text-sm border border-blue-200">
+        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-blue-100 text-trr-blue font-bold flex items-center justify-center text-xs sm:text-sm border border-blue-200">
           <i class="fa-solid fa-user-graduate"></i>
         </div>
-        <button onclick="API.logout()" class="bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-600 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-200 transition-colors flex items-center gap-1.5">
-          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+        <button onclick="API.logout()" class="bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-600 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-200 transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> <span class="hidden xs:inline">Logout</span>
         </button>
       </div>
     </div>
   </header>
 
   <!-- DASHBOARD WRAPPER -->
-  <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-6">
+  <main class="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 flex-1 w-full space-y-4 sm:space-y-6">
 
     <!-- STUDENT IDENTITY CARD & METRICS -->
-    <div class="bg-gradient-to-r from-trr-navy to-trr-blue text-white rounded-2xl p-6 shadow-md relative overflow-hidden">
+    <div class="bg-gradient-to-r from-trr-navy to-trr-blue text-white rounded-2xl p-4 sm:p-6 shadow-md relative overflow-hidden">
       <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl text-white pointer-events-none">
         <i class="fa-solid fa-graduation-cap"></i>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center relative z-10">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 items-center relative z-10">
         <div class="md:col-span-6 space-y-1">
           <span class="bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded">Enrolled Student</span>
-          <h1 id="student-name-display" class="text-2xl font-black tracking-tight">Aditya Varma</h1>
+          <h1 id="student-name-display" class="text-xl sm:text-2xl font-black tracking-tight">Student Profile</h1>
           <p id="student-meta-display" class="text-xs text-slate-300">
-            Roll No: <span class="text-white font-mono font-bold">22TR1A0501</span> | Branch: <span class="text-white font-bold">CSE</span> | Semester: <span class="text-white font-bold">IV Sem (2nd Year)</span>
+            TRR College of Technology • Pragathi Colony, Meerpet, Hyderabad
           </p>
           <p class="text-[11px] text-slate-400">Teegala Ram Reddy Educational Society • JNTUH Affiliated</p>
         </div>
 
         <!-- Metric Badges -->
-        <div class="md:col-span-6 grid grid-cols-3 gap-3">
-          <div class="bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/10 text-center">
-            <span class="text-[10px] text-slate-300 block uppercase font-bold">Live Attendance</span>
-            <span id="metric-attendance" class="text-xl font-black text-emerald-400">88.5%</span>
+        <div class="md:col-span-6 grid grid-cols-3 gap-2 sm:gap-3">
+          <div class="bg-white/10 backdrop-blur-sm p-2.5 sm:p-3 rounded-xl border border-white/10 text-center">
+            <span class="text-[9px] sm:text-[10px] text-slate-300 block uppercase font-bold">Live Attendance</span>
+            <span id="metric-attendance" class="text-lg sm:text-xl font-black text-emerald-400">88.5%</span>
             <span id="metric-standing-badge" class="text-[9px] text-emerald-300 block mt-0.5">Good Standing</span>
           </div>
 
-          <div class="bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/10 text-center">
-            <span class="text-[10px] text-slate-300 block uppercase font-bold">CGPA Score</span>
-            <span id="metric-cgpa" class="text-xl font-black text-amber-300">8.72</span>
+          <div class="bg-white/10 backdrop-blur-sm p-2.5 sm:p-3 rounded-xl border border-white/10 text-center">
+            <span class="text-[9px] sm:text-[10px] text-slate-300 block uppercase font-bold">CGPA Score</span>
+            <span id="metric-cgpa" class="text-lg sm:text-xl font-black text-amber-300">8.72</span>
             <span class="text-[9px] text-amber-200 block mt-0.5">Distinction</span>
           </div>
 
-          <div class="bg-white/10 backdrop-blur-sm p-3 rounded-xl border border-white/10 text-center">
-            <span class="text-[10px] text-slate-300 block uppercase font-bold">Tasks Submitted</span>
-            <span id="metric-submissions" class="text-xl font-black text-sky-300">--</span>
+          <div class="bg-white/10 backdrop-blur-sm p-2.5 sm:p-3 rounded-xl border border-white/10 text-center">
+            <span class="text-[9px] sm:text-[10px] text-slate-300 block uppercase font-bold">Tasks Submitted</span>
+            <span id="metric-submissions" class="text-lg sm:text-xl font-black text-sky-300">--</span>
             <span class="text-[9px] text-sky-200 block mt-0.5">Evaluated</span>
           </div>
         </div>
@@ -101,23 +101,23 @@
     </div>
 
     <!-- AGILE OPERATIONS NAVIGATION TABS -->
-    <div class="bg-white p-2 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-2 text-xs font-bold">
-      <button onclick="switchStudentTab('assignments')" id="tab-nav-assignments" class="student-nav-tab active bg-trr-blue text-white px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+    <div class="bg-white p-2 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-1.5 sm:gap-2 text-xs font-bold overflow-x-auto">
+      <button onclick="switchStudentTab('assignments')" id="tab-nav-assignments" class="student-nav-tab active bg-trr-blue text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
         <i class="fa-solid fa-list-check"></i> Course Assignments & Submissions
       </button>
-      <button onclick="switchStudentTab('timetable')" id="tab-nav-timetable" class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+      <button onclick="switchStudentTab('timetable')" id="tab-nav-timetable" class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
         <i class="fa-solid fa-calendar-days text-sky-600"></i> Class Timetable
       </button>
-      <button onclick="switchStudentTab('attendance')" id="tab-nav-attendance" class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+      <button onclick="switchStudentTab('attendance')" id="tab-nav-attendance" class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
         <i class="fa-solid fa-clock-rotate-left text-emerald-600"></i> Live Attendance
       </button>
-      <button onclick="switchStudentTab('results')" id="tab-nav-results" class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+      <button onclick="switchStudentTab('results')" id="tab-nav-results" class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
         <i class="fa-solid fa-award text-amber-600"></i> Exam Results & Grade Card
       </button>
-      <button onclick="switchStudentTab('library')" id="tab-nav-library" class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+      <button onclick="switchStudentTab('library')" id="tab-nav-library" class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
         <i class="fa-solid fa-book-bookmark text-amber-600"></i> Central Digital Library
       </button>
-      <button onclick="switchStudentTab('notices')" id="tab-nav-notices" class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all">
+      <button onclick="switchStudentTab('notices')" id="tab-nav-notices" class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
         <i class="fa-solid fa-bullhorn text-rose-500"></i> Circulars & Notices
       </button>
     </div>
@@ -263,8 +263,8 @@
   </main>
 
   <!-- SUBMISSION MODAL -->
-  <div id="submission-modal" class="fixed inset-0 z-50 modal-overlay hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+  <div id="submission-modal" class="fixed inset-0 z-50 modal-overlay hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] overflow-y-auto">
       <div class="bg-trr-blue text-white p-4 flex justify-between items-center">
         <h3 class="font-bold text-sm">Submit Assignment Solution</h3>
         <button onclick="closeSubmissionModal()" class="text-white text-xl font-bold">&times;</button>

@@ -1,16 +1,16 @@
 // TRR College of Technology (TRRCT) - Enterprise Production Seed Registry
-// Admin: Satheesh | Password: Admin@123
+// Admin: admin | Password: Admin@123
 const adminHash = "$2b$10$DGGUyCHcaqKhCPHG9W7.a.9YSTs60bJKEGgc3JsWWJQLYtsXMbQMq"; // Admin@123
 
 module.exports = {
-  // ONLY ONE ADMIN ACCOUNT: Satheesh (Password: Admin@123)
+  // ONLY ONE ADMIN ACCOUNT: admin (Password: Admin@123)
   admins: [
     {
       id: "ADM001",
-      adminId: "satheesh",
-      name: "Satheesh",
+      adminId: "admin",
+      name: "System Administrator",
       title: "System Administrator",
-      email: "satheesh@trrct.co.in",
+      email: "admin@trrct.co.in",
       phone: "+91 91543 64306",
       passwordHash: adminHash,
       role: "admin",

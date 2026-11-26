@@ -66,9 +66,9 @@ function saveLocalDatabase() {
 // Automatically seed MongoDB from initialData.js if collections are empty
 async function seedMongoIfEmpty() {
   try {
-    const studentCount = await models.Student.countDocuments();
-    if (studentCount === 0) {
-      console.log('🌱 Empty MongoDB database detected. Seeding collections with TRRCT academic data...');
+    const adminCount = await models.Admin.countDocuments();
+    if (adminCount === 0) {
+      console.log('🌱 Empty MongoDB database detected. Seeding collections with TRRCT institutional data...');
       const seedData = require(SEED_DATA_PATH);
 
       if (seedData.admins && seedData.admins.length) {
@@ -104,7 +104,7 @@ async function seedMongoIfEmpty() {
 
       console.log('✓ Successfully seeded live MongoDB Atlas collections with TRRCT institutional data!');
     } else {
-      console.log(`✓ Live MongoDB Atlas verified: ${studentCount} students registered.`);
+      console.log(`✓ Live MongoDB Atlas verified: System Administrator active.`);
     }
   } catch (err) {
     console.error('Warning during MongoDB auto-seed:', err.message);
