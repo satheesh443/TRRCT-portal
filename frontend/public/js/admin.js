@@ -286,7 +286,7 @@ async function loadAdminStaff() {
           <td class="py-3 px-4 text-slate-600">${st.designation}</td>
           <td class="py-3 px-4 text-slate-500 uppercase text-[10px] font-bold">${st.role}</td>
           <td class="py-3 px-4 text-right">
-            <button onclick="deleteStaffItem('${st.id || st.staffId}')" class="text-rose-600 hover:text-rose-800 text-xs font-bold bg-rose-50 hover:bg-rose-100 border border-rose-200 px-2.5 py-1 rounded transition-colors">
+            <button onclick="deleteStaffItem('${st.staffId || st.id || st._id}')" class="text-rose-600 hover:text-rose-800 text-xs font-bold bg-rose-50 hover:bg-rose-100 border border-rose-200 px-2.5 py-1 rounded transition-colors">
               <i class="fa-solid fa-trash-can mr-1"></i> Remove
             </button>
           </td>

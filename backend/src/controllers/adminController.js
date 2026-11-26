@@ -202,12 +202,19 @@ async function createStudent(req, res) {
 async function deleteStudent(req, res) {
   try {
     const { studentId } = req.params;
-    let result = await DataStore.getCollection('students').deleteOne({ id: studentId });
+    const cleanId = String(studentId).trim();
+    const mongoose = require('mongoose');
+    const col = DataStore.getCollection('students');
+
+    let result = await col.deleteOne({ collegeId: cleanId });
     if (!result || !result.deletedCount) {
-      result = await DataStore.getCollection('students').deleteOne({ collegeId: studentId.toUpperCase() });
+      result = await col.deleteOne({ collegeId: cleanId.toUpperCase() });
     }
     if (!result || !result.deletedCount) {
-      result = await DataStore.getCollection('students').deleteOne({ collegeId: studentId });
+      result = await col.deleteOne({ id: cleanId });
+    }
+    if ((!result || !result.deletedCount) && mongoose.isValidObjectId(cleanId)) {
+      result = await col.deleteOne({ _id: cleanId });
     }
     return res.json({ success: true, message: 'Student record removed successfully', result });
   } catch (err) {
@@ -273,9 +280,19 @@ async function createStaff(req, res) {
 async function deleteStaff(req, res) {
   try {
     const { staffId } = req.params;
-    let result = await DataStore.getCollection('staff').deleteOne({ id: staffId });
+    const cleanId = String(staffId).trim();
+    const mongoose = require('mongoose');
+    const col = DataStore.getCollection('staff');
+
+    let result = await col.deleteOne({ staffId: cleanId });
     if (!result || !result.deletedCount) {
-      result = await DataStore.getCollection('staff').deleteOne({ staffId: staffId.toUpperCase() });
+      result = await col.deleteOne({ staffId: cleanId.toUpperCase() });
+    }
+    if (!result || !result.deletedCount) {
+      result = await col.deleteOne({ id: cleanId });
+    }
+    if ((!result || !result.deletedCount) && mongoose.isValidObjectId(cleanId)) {
+      result = await col.deleteOne({ _id: cleanId });
     }
     return res.json({ success: true, message: 'Faculty member record removed successfully', result });
   } catch (err) {
