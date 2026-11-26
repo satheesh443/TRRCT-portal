@@ -1,9 +1,13 @@
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const mongoose = require('mongoose');
 const models = require('../models');
 
-const LOCAL_DB_PATH = path.join(__dirname, '../../../database/trrct_local_db.json');
+const isServerless = Boolean(process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.LAMBDA_TASK_ROOT);
+const LOCAL_DB_PATH = isServerless
+  ? path.join(os.tmpdir(), 'trrct_local_db.json')
+  : path.join(__dirname, '../../../database/trrct_local_db.json');
 const SEED_DATA_PATH = path.join(__dirname, '../../../database/seeds/initialData.js');
 
 let isMongoConnected = false;
@@ -29,26 +33,20 @@ function loadLocalDatabase() {
   try {
     if (!fs.existsSync(LOCAL_DB_PATH)) {
       const initialSeed = require(SEED_DATA_PATH);
-      fs.writeFileSync(LOCAL_DB_PATH, JSON.stringify(initialSeed, null, 2), 'utf-8');
+      try {
+        fs.writeFileSync(LOCAL_DB_PATH, JSON.stringify(initialSeed, null, 2), 'utf-8');
+      } catch (_) {}
+      memoryDb = JSON.parse(JSON.stringify(initialSeed));
       console.log('✓ Initialized Local Document Store with TRRCT seed data');
+      return memoryDb;
     }
     const raw = fs.readFileSync(LOCAL_DB_PATH, 'utf-8');
     memoryDb = JSON.parse(raw);
     return memoryDb;
   } catch (err) {
-    console.error('Error loading local DB:', err);
-    memoryDb = {
-      admins: [],
-      staff: [],
-      students: [],
-      notices: [],
-      events: [],
-      assignments: [],
-      submissions: [],
-      results: [],
-      library: [],
-      attendance_sessions: []
-    };
+    console.error('Error loading local DB:', err.message);
+    const initialSeed = require(SEED_DATA_PATH);
+    memoryDb = JSON.parse(JSON.stringify(initialSeed));
     return memoryDb;
   }
 }
@@ -58,9 +56,7 @@ function saveLocalDatabase() {
     if (memoryDb) {
       fs.writeFileSync(LOCAL_DB_PATH, JSON.stringify(memoryDb, null, 2), 'utf-8');
     }
-  } catch (err) {
-    console.error('Error saving local DB:', err);
-  }
+  } catch (_) {}
 }
 
 // Automatically seed MongoDB from initialData.js if collections are empty
