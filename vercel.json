@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "frontend/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/server.js"
+    },
+    {
+      "src": "/student-portal",
+      "dest": "/frontend/student-portal.html"
+    },
+    {
+      "src": "/staff-portal",
+      "dest": "/frontend/staff-portal.html"
+    },
+    {
+      "src": "/admin-portal",
+      "dest": "/frontend/admin-portal.html"
+    },
+    {
+      "src": "/library",
+      "dest": "/frontend/library.html"
+    },
+    {
+      "src": "/public/(.*)",
+      "dest": "/frontend/public/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
+    }
+  ],
+  "env": {
+    "MONGODB_URI": "mongodb+srv://trrctdemo_db_user:TrrctPortal2026!@ac-gvyye5b-shard-00-00.dknbkyv.mongodb.net/trrct_portal?retryWrites=true&w=majority&appName=trrct-cluster-demo",
+    "JWT_SECRET": "trrct_portal_secure_jwt_secret_2026_enterprise_998243"
+  }
+}

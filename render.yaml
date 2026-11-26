@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: trrct-portal
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node backend/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        value: mongodb+srv://trrctdemo_db_user:TrrctPortal2026!@ac-gvyye5b-shard-00-00.dknbkyv.mongodb.net/trrct_portal?retryWrites=true&w=majority&appName=trrct-cluster-demo
+      - key: JWT_SECRET
+        value: trrct_portal_secure_jwt_secret_2026_enterprise_998243
