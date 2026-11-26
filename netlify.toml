@@ -1,0 +1,20 @@
+[build]
+  # Plain Node.js + Express app (no frontend framework, npm, no lockfile).
+  # The root package.json has no dependencies; the backend's live in backend/.
+  command = "npm install --prefix backend"
+  # Static HTML/CSS/JS served directly from the CDN.
+  publish = "frontend"
+
+[build.environment]
+  # Netlify Server requires Node.js 24+.
+  NODE_VERSION = "24"
+
+# The Express backend (backend/server.js) runs as a Netlify Server via
+# netlify/server/index.mjs and handles /api/* and anything not served statically.
+[server]
+  # Files the backend reads at runtime through computed paths.
+  includedFiles = [
+    "frontend/*.html",
+    "database/seeds/**",
+    "backend/uploads/.gitkeep",
+  ]
