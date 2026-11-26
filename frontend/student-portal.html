@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Academic Portal - TRR College of Technology</title>
-  
+
   <link rel="icon" type="image/png" href="/public/assets/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -24,9 +25,11 @@
     }
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="/public/css/style.css">
 </head>
+
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
 
   <!-- TOP APP NAV -->
@@ -36,8 +39,10 @@
         <a href="/" class="flex items-center gap-2 sm:gap-2.5">
           <img src="/public/assets/logo.png" alt="Logo" class="h-8 sm:h-10 w-auto">
           <div class="flex flex-col">
-            <span class="font-extrabold text-xs sm:text-sm md:text-base text-trr-blue leading-tight">TRR COLLEGE OF TECHNOLOGY</span>
-            <span class="text-[9px] sm:text-[10px] font-bold text-amber-600 uppercase tracking-wider">Student Academic Operations Portal</span>
+            <span class="font-extrabold text-xs sm:text-sm md:text-base text-trr-blue leading-tight">TRR COLLEGE OF
+              TECHNOLOGY</span>
+            <span class="text-[9px] sm:text-[10px] font-bold text-amber-600 uppercase tracking-wider">Student Academic
+              Operations Portal</span>
           </div>
         </a>
       </div>
@@ -48,10 +53,12 @@
           <span id="header-student-name" class="font-bold text-xs text-slate-900">Student Profile</span>
           <span id="header-student-id" class="text-[10px] text-slate-500 font-mono">Enrolled Student</span>
         </div>
-        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-blue-100 text-trr-blue font-bold flex items-center justify-center text-xs sm:text-sm border border-blue-200">
+        <div
+          class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-blue-100 text-trr-blue font-bold flex items-center justify-center text-xs sm:text-sm border border-blue-200">
           <i class="fa-solid fa-user-graduate"></i>
         </div>
-        <button onclick="API.logout()" class="bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-600 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-200 transition-colors flex items-center gap-1.5">
+        <button onclick="API.logout()"
+          class="bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-600 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-200 transition-colors flex items-center gap-1.5">
           <i class="fa-solid fa-arrow-right-from-bracket"></i> <span class="hidden xs:inline">Logout</span>
         </button>
       </div>
@@ -62,14 +69,17 @@
   <main class="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 flex-1 w-full space-y-4 sm:space-y-6">
 
     <!-- STUDENT IDENTITY CARD & METRICS -->
-    <div class="bg-gradient-to-r from-trr-navy to-trr-blue text-white rounded-2xl p-4 sm:p-6 shadow-md relative overflow-hidden">
+    <div
+      class="bg-gradient-to-r from-trr-navy to-trr-blue text-white rounded-2xl p-4 sm:p-6 shadow-md relative overflow-hidden">
       <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl text-white pointer-events-none">
         <i class="fa-solid fa-graduation-cap"></i>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 items-center relative z-10">
         <div class="md:col-span-6 space-y-1">
-          <span class="bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded">Enrolled Student</span>
+          <span
+            class="bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded">Enrolled
+            Student</span>
           <h1 id="student-name-display" class="text-xl sm:text-2xl font-black tracking-tight">Student Profile</h1>
           <p id="student-meta-display" class="text-xs text-slate-300">
             TRR College of Technology • Pragathi Colony, Meerpet, Hyderabad
@@ -101,23 +111,30 @@
     </div>
 
     <!-- AGILE OPERATIONS NAVIGATION TABS -->
-    <div class="bg-white p-2 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-1.5 sm:gap-2 text-xs font-bold overflow-x-auto">
-      <button onclick="switchStudentTab('assignments')" id="tab-nav-assignments" class="student-nav-tab active bg-trr-blue text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
+    <div
+      class="bg-white p-2 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-1.5 sm:gap-2 text-xs font-bold overflow-x-auto">
+      <button onclick="switchStudentTab('assignments')" id="tab-nav-assignments"
+        class="student-nav-tab active bg-trr-blue text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
         <i class="fa-solid fa-list-check"></i> Course Assignments & Submissions
       </button>
-      <button onclick="switchStudentTab('timetable')" id="tab-nav-timetable" class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
+      <button onclick="switchStudentTab('timetable')" id="tab-nav-timetable"
+        class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
         <i class="fa-solid fa-calendar-days text-sky-600"></i> Class Timetable
       </button>
-      <button onclick="switchStudentTab('attendance')" id="tab-nav-attendance" class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
+      <button onclick="switchStudentTab('attendance')" id="tab-nav-attendance"
+        class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
         <i class="fa-solid fa-clock-rotate-left text-emerald-600"></i> Live Attendance
       </button>
-      <button onclick="switchStudentTab('results')" id="tab-nav-results" class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
+      <button onclick="switchStudentTab('results')" id="tab-nav-results"
+        class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
         <i class="fa-solid fa-award text-amber-600"></i> Exam Results & Grade Card
       </button>
-      <button onclick="switchStudentTab('library')" id="tab-nav-library" class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
+      <button onclick="switchStudentTab('library')" id="tab-nav-library"
+        class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
         <i class="fa-solid fa-book-bookmark text-amber-600"></i> Central Digital Library
       </button>
-      <button onclick="switchStudentTab('notices')" id="tab-nav-notices" class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
+      <button onclick="switchStudentTab('notices')" id="tab-nav-notices"
+        class="student-nav-tab bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg flex items-center gap-1.5 sm:gap-2 transition-all whitespace-nowrap">
         <i class="fa-solid fa-bullhorn text-rose-500"></i> Circulars & Notices
       </button>
     </div>
@@ -146,7 +163,8 @@
           <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
             <i class="fa-solid fa-calendar-days text-sky-600"></i> Academic Schedule & Weekly Timetable
           </h2>
-          <p class="text-xs text-slate-500">Official semester lecture hours, practical lab slots, and room allocations.</p>
+          <p class="text-xs text-slate-500">Official semester lecture hours, practical lab slots, and room allocations.
+          </p>
         </div>
         <div class="text-xs bg-sky-50 border border-sky-200 text-sky-800 px-3 py-1.5 rounded-lg font-bold">
           Room: Lecture Hall 204 (CSE Block)
@@ -159,13 +177,20 @@
             <thead class="bg-slate-900 text-white uppercase text-[11px] font-bold">
               <tr>
                 <th class="py-3 px-4 border-r border-slate-800">Day</th>
-                <th class="py-3 px-3 border-r border-slate-800 text-center">Period 1<br><span class="text-[9px] font-normal text-slate-400">09:30 - 10:30</span></th>
-                <th class="py-3 px-3 border-r border-slate-800 text-center">Period 2<br><span class="text-[9px] font-normal text-slate-400">10:30 - 11:30</span></th>
-                <th class="py-3 px-3 border-r border-slate-800 text-center">Period 3<br><span class="text-[9px] font-normal text-slate-400">11:30 - 12:30</span></th>
-                <th class="py-3 px-2 border-r border-slate-800 text-center bg-slate-800 text-amber-400">Lunch<br><span class="text-[9px] font-normal text-slate-400">12:30 - 1:15</span></th>
-                <th class="py-3 px-3 border-r border-slate-800 text-center">Period 4<br><span class="text-[9px] font-normal text-slate-400">01:15 - 02:15</span></th>
-                <th class="py-3 px-3 border-r border-slate-800 text-center">Period 5<br><span class="text-[9px] font-normal text-slate-400">02:15 - 03:15</span></th>
-                <th class="py-3 px-3 text-center">Period 6<br><span class="text-[9px] font-normal text-slate-400">03:15 - 04:15</span></th>
+                <th class="py-3 px-3 border-r border-slate-800 text-center">Period 1<br><span
+                    class="text-[9px] font-normal text-slate-400">09:30 - 10:30</span></th>
+                <th class="py-3 px-3 border-r border-slate-800 text-center">Period 2<br><span
+                    class="text-[9px] font-normal text-slate-400">10:30 - 11:30</span></th>
+                <th class="py-3 px-3 border-r border-slate-800 text-center">Period 3<br><span
+                    class="text-[9px] font-normal text-slate-400">11:30 - 12:30</span></th>
+                <th class="py-3 px-2 border-r border-slate-800 text-center bg-slate-800 text-amber-400">Lunch<br><span
+                    class="text-[9px] font-normal text-slate-400">12:30 - 1:15</span></th>
+                <th class="py-3 px-3 border-r border-slate-800 text-center">Period 4<br><span
+                    class="text-[9px] font-normal text-slate-400">01:15 - 02:15</span></th>
+                <th class="py-3 px-3 border-r border-slate-800 text-center">Period 5<br><span
+                    class="text-[9px] font-normal text-slate-400">02:15 - 03:15</span></th>
+                <th class="py-3 px-3 text-center">Period 6<br><span class="text-[9px] font-normal text-slate-400">03:15
+                    - 04:15</span></th>
               </tr>
             </thead>
             <tbody id="student-timetable-body" class="divide-y divide-slate-100 font-medium">
@@ -185,7 +210,8 @@
           </h2>
           <p class="text-xs text-slate-500">Real-time attendance calculated from classroom faculty attendance logs.</p>
         </div>
-        <div id="attendance-eligibility-pill" class="bg-emerald-100 text-emerald-800 text-xs px-3.5 py-1.5 rounded-lg font-bold border border-emerald-200">
+        <div id="attendance-eligibility-pill"
+          class="bg-emerald-100 text-emerald-800 text-xs px-3.5 py-1.5 rounded-lg font-bold border border-emerald-200">
           Status: Eligible (> 75% Threshold)
         </div>
       </div>
@@ -219,7 +245,8 @@
           <h2 class="text-lg font-bold text-slate-900">Academic Grade Cards & Results</h2>
           <p class="text-xs text-slate-500">Official semester performance, credits earned, and SGPA/CGPA breakdown.</p>
         </div>
-        <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-2 self-start sm:self-auto shadow-sm">
+        <button onclick="window.print()"
+          class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-2 self-start sm:self-auto shadow-sm">
           <i class="fa-solid fa-print"></i> Print / Download Grade Sheet
         </button>
       </div>
@@ -236,9 +263,11 @@
           <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
             <i class="fa-solid fa-book-bookmark text-amber-500"></i> Central Digital Library Repository
           </h2>
-          <p class="text-xs text-slate-500">Authenticated repository: Prescribed e-books, lecture slides, and question papers.</p>
+          <p class="text-xs text-slate-500">Authenticated repository: Prescribed e-books, lecture slides, and question
+            papers.</p>
         </div>
-        <a href="/library" class="bg-trr-blue hover:bg-blue-800 text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-1.5 self-start sm:self-auto shadow-sm">
+        <a href="/library"
+          class="bg-trr-blue hover:bg-blue-800 text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-1.5 self-start sm:self-auto shadow-sm">
           Open Full Library Portal <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
         </a>
       </div>
@@ -263,8 +292,10 @@
   </main>
 
   <!-- SUBMISSION MODAL -->
-  <div id="submission-modal" class="fixed inset-0 z-50 modal-overlay hidden flex items-center justify-center p-3 sm:p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] overflow-y-auto">
+  <div id="submission-modal"
+    class="fixed inset-0 z-50 modal-overlay hidden flex items-center justify-center p-3 sm:p-4">
+    <div
+      class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] overflow-y-auto">
       <div class="bg-trr-blue text-white p-4 flex justify-between items-center">
         <h3 class="font-bold text-sm">Submit Assignment Solution</h3>
         <button onclick="closeSubmissionModal()" class="text-white text-xl font-bold">&times;</button>
@@ -279,7 +310,8 @@
 
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Upload Document / Code Archive (PDF/ZIP)</label>
-          <input type="file" id="submit-file" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-trr-blue hover:file:bg-blue-100 border border-slate-300 rounded-lg p-1.5 cursor-pointer">
+          <input type="file" id="submit-file"
+            class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-trr-blue hover:file:bg-blue-100 border border-slate-300 rounded-lg p-1.5 cursor-pointer">
           <p class="text-[10px] text-slate-400 mt-1">Accepts PDF, ZIP, DOCX up to 25 MB.</p>
         </div>
 
@@ -291,17 +323,22 @@
 
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">GitHub / Project Repository URL</label>
-          <input type="url" id="submit-url" placeholder="https://github.com/organization/project" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-trr-blue">
+          <input type="url" id="submit-url" placeholder="https://github.com/organization/project"
+            class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-trr-blue">
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Submission Notes & Remarks</label>
-          <textarea id="submit-notes" rows="3" placeholder="Provide algorithm explanation or execution notes..." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-trr-blue"></textarea>
+          <textarea id="submit-notes" rows="3" placeholder="Provide algorithm explanation or execution notes..."
+            class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-trr-blue"></textarea>
         </div>
 
         <div class="flex justify-end gap-3 pt-2">
-          <button type="button" onclick="closeSubmissionModal()" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-xs font-bold hover:bg-slate-50">Cancel</button>
-          <button type="submit" id="submit-btn" class="bg-trr-blue hover:bg-blue-800 text-white px-5 py-2 rounded-lg text-xs font-bold shadow">Submit to Faculty</button>
+          <button type="button" onclick="closeSubmissionModal()"
+            class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-xs font-bold hover:bg-slate-50">Cancel</button>
+          <button type="submit" id="submit-btn"
+            class="bg-trr-blue hover:bg-blue-800 text-white px-5 py-2 rounded-lg text-xs font-bold shadow">Submit to
+            Faculty</button>
         </div>
       </form>
     </div>
@@ -310,4 +347,5 @@
   <script src="/public/js/api.js"></script>
   <script src="/public/js/student.js"></script>
 </body>
+
 </html>

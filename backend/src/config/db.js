@@ -113,6 +113,10 @@ async function seedMongoIfEmpty() {
 
 // Connect to MongoDB with automatic fallback
 async function connectDB() {
+  if (mongoose.connection && mongoose.connection.readyState === 1) {
+    isMongoConnected = true;
+    return;
+  }
   loadLocalDatabase();
   const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/trrct_portal';
   

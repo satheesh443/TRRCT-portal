@@ -23,13 +23,17 @@ app.use(express.static(path.join(__dirname, '../frontend/public')));
 // Connect to Database (Primary MongoDB with automatic unified failover)
 connectDB();
 
-// API Routes (Agile Modular Architecture)
-app.use('/api/auth', require('./src/routes/authRoutes'));
-app.use('/api/student', require('./src/routes/studentRoutes'));
-app.use('/api/staff', require('./src/routes/staffRoutes'));
-app.use('/api/admin', require('./src/routes/adminRoutes'));
-app.use('/api/library', require('./src/routes/libraryRoutes'));
-app.use('/api/public', require('./src/routes/noticeRoutes'));
+// API Routes Router (Supports direct /api and Netlify Serverless /.netlify/functions/api)
+const apiRouter = express.Router();
+apiRouter.use('/auth', require('./src/routes/authRoutes'));
+apiRouter.use('/student', require('./src/routes/studentRoutes'));
+apiRouter.use('/staff', require('./src/routes/staffRoutes'));
+apiRouter.use('/admin', require('./src/routes/adminRoutes'));
+apiRouter.use('/library', require('./src/routes/libraryRoutes'));
+apiRouter.use('/public', require('./src/routes/noticeRoutes'));
+
+app.use('/api', apiRouter);
+app.use('/.netlify/functions/api', apiRouter);
 
 // Serve HTML Portals
 app.get('/', (req, res) => {
@@ -57,12 +61,16 @@ app.use((req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
-// Start Server
-app.listen(PORT, () => {
-  console.log(`=======================================================`);
-  console.log(`🏛️  TRR COLLEGE OF TECHNOLOGY (TRRCT) - CAMPUS ERP`);
-  console.log(`🚀 Server operational at: http://localhost:${PORT}`);
-  console.log(`📌 Primary Database: MongoDB (/trrct_portal)`);
-  console.log(`📁 Secondary Database: Google Drive Common Library`);
-  console.log(`=======================================================`);
-});
+// Start Server when run directly
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`=======================================================`);
+    console.log(`🏛️  TRR COLLEGE OF TECHNOLOGY (TRRCT) - CAMPUS ERP`);
+    console.log(`🚀 Server operational at: http://localhost:${PORT}`);
+    console.log(`📌 Primary Database: MongoDB (/trrct_portal)`);
+    console.log(`📁 Secondary Database: Google Drive Common Library`);
+    console.log(`=======================================================`);
+  });
+}
+
+module.exports = app;
