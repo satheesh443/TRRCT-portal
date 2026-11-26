@@ -253,6 +253,12 @@ const API = {
     });
   },
 
+  deleteStaff: async (staffId) => {
+    return await API.request(`/api/admin/staff/${staffId}`, {
+      method: 'DELETE'
+    });
+  },
+
   // Central Digital Library (Protected)
   getLibraryResources: async (category = 'All', department = 'All', search = '') => {
     return await API.request(`/api/library?category=${encodeURIComponent(category)}&department=${encodeURIComponent(department)}&search=${encodeURIComponent(search)}`);

@@ -210,6 +210,10 @@ async function loadAdminStudents() {
   try {
     const res = await API.getAllStudents();
     if (res.success && res.students) {
+      if (res.students.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-slate-400">No student records enrolled yet. Use the form on the left to add students.</td></tr>`;
+        return;
+      }
       tbody.innerHTML = res.students.map(s => `
         <tr>
           <td class="py-3 px-4 font-mono font-bold text-trr-blue">${s.collegeId}</td>
@@ -217,7 +221,9 @@ async function loadAdminStudents() {
           <td class="py-3 px-4 font-mono text-slate-600">${s.dob}</td>
           <td class="py-3 px-4 text-slate-600">${s.department}</td>
           <td class="py-3 px-4 text-right">
-            <button onclick="deleteStudentItem('${s.id}')" class="text-rose-600 hover:text-rose-800 text-xs font-bold">Remove</button>
+            <button onclick="deleteStudentItem('${s.id || s.collegeId}')" class="text-rose-600 hover:text-rose-800 text-xs font-bold bg-rose-50 hover:bg-rose-100 border border-rose-200 px-2.5 py-1 rounded transition-colors">
+              <i class="fa-solid fa-trash-can mr-1"></i> Remove
+            </button>
           </td>
         </tr>
       `).join('');
@@ -268,6 +274,10 @@ async function loadAdminStaff() {
   try {
     const res = await API.getAllStaff();
     if (res.success && res.staff) {
+      if (res.staff.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-slate-400">No faculty members enrolled yet. Use the form on the left to add faculty.</td></tr>`;
+        return;
+      }
       tbody.innerHTML = res.staff.map(st => `
         <tr>
           <td class="py-3 px-4 font-mono font-bold text-emerald-700">${st.staffId}</td>
@@ -275,11 +285,30 @@ async function loadAdminStaff() {
           <td class="py-3 px-4 text-slate-600">${st.department}</td>
           <td class="py-3 px-4 text-slate-600">${st.designation}</td>
           <td class="py-3 px-4 text-slate-500 uppercase text-[10px] font-bold">${st.role}</td>
+          <td class="py-3 px-4 text-right">
+            <button onclick="deleteStaffItem('${st.id || st.staffId}')" class="text-rose-600 hover:text-rose-800 text-xs font-bold bg-rose-50 hover:bg-rose-100 border border-rose-200 px-2.5 py-1 rounded transition-colors">
+              <i class="fa-solid fa-trash-can mr-1"></i> Remove
+            </button>
+          </td>
         </tr>
       `).join('');
     }
   } catch (err) {
     console.error('Error loading staff:', err);
+  }
+}
+
+async function deleteStaffItem(staffId) {
+  if (!confirm('Permanently remove this faculty member record?')) return;
+  try {
+    const res = await API.deleteStaff(staffId);
+    if (res.success) {
+      API.showToast('Faculty record removed from database.', 'info');
+      await loadAdminStaff();
+      await loadAdminOverview();
+    }
+  } catch (err) {
+    API.showToast(err.message || 'Failed to remove faculty member', 'error');
   }
 }
 

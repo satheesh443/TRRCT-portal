@@ -26,5 +26,6 @@ router.delete('/students/:studentId', adminController.deleteStudent);
 // Staff Directory Management
 router.get('/staff', adminController.getAllStaff);
 router.post('/staff', adminController.createStaff);
+router.delete('/staff/:staffId', adminController.deleteStaff);
 
 module.exports = router;

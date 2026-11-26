@@ -202,9 +202,14 @@ async function createStudent(req, res) {
 async function deleteStudent(req, res) {
   try {
     const { studentId } = req.params;
-    const result = await DataStore.getCollection('students').deleteOne({ id: studentId }) ||
-                   await DataStore.getCollection('students').deleteOne({ collegeId: studentId });
-    return res.json({ success: true, message: 'Student record removed', result });
+    let result = await DataStore.getCollection('students').deleteOne({ id: studentId });
+    if (!result || !result.deletedCount) {
+      result = await DataStore.getCollection('students').deleteOne({ collegeId: studentId.toUpperCase() });
+    }
+    if (!result || !result.deletedCount) {
+      result = await DataStore.getCollection('students').deleteOne({ collegeId: studentId });
+    }
+    return res.json({ success: true, message: 'Student record removed successfully', result });
   } catch (err) {
     console.error('Error deleting student:', err);
     return res.status(500).json({ success: false, message: 'Failed to delete student' });
@@ -265,6 +270,20 @@ async function createStaff(req, res) {
   }
 }
 
+async function deleteStaff(req, res) {
+  try {
+    const { staffId } = req.params;
+    let result = await DataStore.getCollection('staff').deleteOne({ id: staffId });
+    if (!result || !result.deletedCount) {
+      result = await DataStore.getCollection('staff').deleteOne({ staffId: staffId.toUpperCase() });
+    }
+    return res.json({ success: true, message: 'Faculty member record removed successfully', result });
+  } catch (err) {
+    console.error('Error deleting staff:', err);
+    return res.status(500).json({ success: false, message: 'Failed to delete faculty member' });
+  }
+}
+
 module.exports = {
   getAdminOverview,
   createNotice,
@@ -276,5 +295,6 @@ module.exports = {
   createStudent,
   deleteStudent,
   getAllStaff,
-  createStaff
+  createStaff,
+  deleteStaff
 };
